@@ -1,14 +1,20 @@
-<app-layout-header (sidebarToggle)="displaySidebar($event)"></app-layout-header>
+<app-layout-header (sidebarToggle)="toggleSidebar()"></app-layout-header>
 
 <div class="main-content">
   <div class="row">
-    <div class="col-2">
-      <div  style="background-color: #f6f6f6;" [ngClass]="{'sidebar-visible': !isSideBarVisible, 'sidebar-hidden': isSideBarVisible}" class="sidebar-wrapper">
+    <div class="col-2 d-none d-md-block">
+      <div style="background-color: #f6f6f6;" [ngClass]="{'sidebar-visible': isSidebarOpen, 'sidebar-hidden': !isSidebarOpen}" class="sidebar-wrapper">
         <app-sidebar></app-sidebar>
       </div>
     </div>
-
-    <div class="col">
+    <!-- Mobile sidebar overlay -->
+    <ng-container *ngIf="isSidebarOpen && isMobile">
+      <div class="sidebar-backdrop" (click)="toggleSidebar()"></div>
+      <div class="sidebar-wrapper sidebar-overlay-mobile">
+        <app-sidebar></app-sidebar>
+      </div>
+    </ng-container>
+    <div class="col main-content-col" [class.full-width]="!isSidebarOpen && isMobile">
       <ng-content></ng-content>
     </div>
   </div>

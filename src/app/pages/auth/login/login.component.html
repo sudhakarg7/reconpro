@@ -1,96 +1,46 @@
-<!-- <div class="text-center text-primary mb-4">
-  <div class="h2 fw-normal mb-0">{{ 'WELCOME_TO' | translate }}</div>
-  <div class="h1 fw-bold text-uppercase">{{ appName }}</div>
-  <div class="fw-normal text-black">{{ 'PROJECT_DESC' | translate }}</div>
-</div> -->
-
-<!--  -->
-<div class="auth-layout-wrap" style="background-image: url(./assets/images/photo-wide-4.jpg)">
-  <div class="auth-content">
-      <div class="card o-hidden">
-          <div class="row">
-              <div class="col-md-12">
-                  <div class="p-4">
-                      <div class="auth-logo text-center mb-4">
-                          <img src="assets/images/logo-text.png" alt="">
-                      </div>
-                      <h1 class="mb-3 text-18 text-center">Sign In</h1>
-                      <form [formGroup]="formGroup" (ngSubmit)="onClickSubmit()">
-                          <div class="form-group">
-                              <label for="email">Email address</label>
-                              <input id="email" class="form-control form-control-rounded" type="email"formControlName="email"
-                              [ngClass]="{ 'is-invalid' : formGroup.controls.email.errors && formGroup.controls.email.touched }">
-                            <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('required')">
-                              {{ 'FIELD_REQUIRED' | translate }}
-                            </div>
-                            <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('email')">
-                              {{ 'FIELD_EMAIL' | translate }}
-                            </div>
-                          </div>
-                          <div class="form-group">
-                              <label for="password">Password</label>
-                              <input id="password" class="form-control form-control-rounded" type="password" formControlName="password"
-                              [ngClass]="{ 'is-invalid' : formGroup.controls.password.errors && formGroup.controls.password.touched }">
-                            <div class="invalid-feedback" *ngIf="formGroup.controls.password.hasError('required')">
-                              {{ 'FIELD_REQUIRED' | translate }}
-                            </div>
-                          </div>
-                          <button class="btn btn-rounded btn-primary btn-block mt-2"
-                          type="submit" [disabled]="!formGroup.valid">Sign In</button>
-
-                      </form>
-
-                      <div class="mt-3 text-center">
-                          <a routerLink="/auth/forgot-password" class="text-muted"><u>Forgot Password?</u></a>
-                      </div>
-                  </div>
-              </div>
-              
-          </div>
+<!-- Minimal, clean login form -->
+<div class="login-bg" style="background: url('assets/img/blurry-gradient-haikei.svg') no-repeat center center fixed; background-size: cover; min-height: 100vh;">
+  <div class="login-card" @fadeIn>
+    <div class="login-logo">
+      <img src="assets/images/logo-text.png" alt="App Logo" />
+    </div>
+    <h1 class="login-title">Sign In</h1>
+    <form [formGroup]="formGroup" (ngSubmit)="onClickSubmit()" aria-label="Login form" autocomplete="on">
+      <div *ngIf="loginError" class="login-error" role="alert">{{ loginError }}</div>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <div class="input-wrapper">
+          <span class="input-icon" aria-hidden="true">
+            <!-- Email SVG icon -->
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><polyline points="2,7 12,13 22,7"/></svg>
+          </span>
+          <input id="email" class="form-control" type="email" formControlName="email" placeholder="Enter your email" aria-required="true" [attr.aria-invalid]="formGroup.controls.email.invalid" [ngClass]="{ 'is-invalid' : formGroup.controls.email.errors && formGroup.controls.email.touched }" />
+        </div>
+        <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('required')">{{ 'FIELD_REQUIRED' | translate }}</div>
+        <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('email')">{{ 'FIELD_EMAIL' | translate }}</div>
       </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <span class="input-icon" aria-hidden="true">
+            <!-- Password SVG icon -->
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </span>
+          <input id="password" class="form-control" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Enter your password" aria-required="true" [attr.aria-invalid]="formGroup.controls.password.invalid" [ngClass]="{ 'is-invalid' : formGroup.controls.password.errors && formGroup.controls.password.touched }" />
+          <button type="button" class="toggle-password" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'" tabindex="0">
+            <svg *ngIf="!showPassword" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg *ngIf="showPassword" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.77 21.77 0 0 1 5.06-6.06M1 1l22 22"/></svg>
+          </button>
+        </div>
+        <div class="invalid-feedback" *ngIf="formGroup.controls.password.hasError('required')">{{ 'FIELD_REQUIRED' | translate }}</div>
+      </div>
+      <button class="btn-login" type="submit" [disabled]="!formGroup.valid || loading" [attr.aria-busy]="loading">
+        <span *ngIf="!loading">Sign In</span>
+        <span *ngIf="loading" class="spinner"></span>
+      </button>
+    </form>
+    <div class="login-links">
+      <a routerLink="/auth/forgot-password" class="forgot-link">Forgot Password?</a>
+    </div>
   </div>
 </div>
-
-<!-- end -->
-
-<!-- <div class="d-flex justify-content-center">
-  <div class="wrapper">
-
-    <form [formGroup]="formGroup" (ngSubmit)="onClickSubmit()">
-
-      <div class="mb-3">
-        <label for="email" class="form-label text-start w-100">{{ 'EMAIL' | translate }}</label>
-        <input type="email" class="form-control" id="email"
-          formControlName="email"
-          [ngClass]="{ 'is-invalid' : formGroup.controls.email.errors && formGroup.controls.email.touched }">
-        <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('required')">
-          {{ 'FIELD_REQUIRED' | translate }}
-        </div>
-        <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('email')">
-          {{ 'FIELD_EMAIL' | translate }}
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <label for="password" class="form-label text-start w-100">{{ 'PASSWORD' | translate }}</label>
-        <input type="password" class="form-control" id="password"
-          formControlName="password"
-          [ngClass]="{ 'is-invalid' : formGroup.controls.password.errors && formGroup.controls.password.touched }">
-        <div class="invalid-feedback" *ngIf="formGroup.controls.password.hasError('required')">
-          {{ 'FIELD_REQUIRED' | translate }}
-        </div>
-      </div>
-
-      <div class="text-end mb-3">
-        <a routerLink="/auth/forgot-password" class="">{{ 'FORGOT_YOUR_PWD' | translate }}</a>
-      </div>
-
-      <div class="text-center">
-        <button type="submit" class="btn btn-primary mb-3 px-5" [disabled]="!formGroup.valid">
-          <span class="px-4 d-block">{{ 'SIGN_IN' | translate }}</span>
-        </button>
-      </div>
-
-    </form>
-  </div>
-</div> -->

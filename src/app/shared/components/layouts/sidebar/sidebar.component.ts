@@ -20,6 +20,7 @@ interface IMenuList {
 export class SidebarComponent implements OnInit {
   menuList: IMenuList[] = [];
   openSubMenuId: number | null = null; // To track the open submenu
+  public isCollapsed = false;
 
   ngOnInit(): void {
     this.menuList = [

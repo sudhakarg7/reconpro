@@ -1,5 +1,5 @@
 // Angular modules
-import { NgIf }                 from '@angular/common';
+import { NgIf, NgFor }                 from '@angular/common';
 import { Component,ViewChild  }            from '@angular/core';
 import { OnInit }               from '@angular/core';
 
@@ -27,7 +27,7 @@ Chart.register(CategoryScale, LinearScale, BarController, BarElement);
   templateUrl : './home.component.html',
   styleUrls   : ['./home.component.scss'],
   standalone  : true,
-  imports     : [PageLayoutComponent, NgIf, ProgressBarComponent, BaseChartDirective ]
+  imports     : [PageLayoutComponent, NgIf, NgFor, ProgressBarComponent, BaseChartDirective ]
 })
 export class HomeComponent implements OnInit
 {
@@ -74,6 +74,8 @@ export class HomeComponent implements OnInit
   @ViewChild(BaseChartDirective) chart: BaseChartDirective<'bar'> | undefined;
 
   public barChartOptions: ChartConfiguration<'bar'>['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {},
       y: {
@@ -135,6 +137,7 @@ export class HomeComponent implements OnInit
   // Doughnut chart options
   public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true,
@@ -182,6 +185,57 @@ export class HomeComponent implements OnInit
         window.URL.revokeObjectURL(data);
       }, 100);
     });
+  }
+
+  // -------------------------------------------------------------------------------
+  // NOTE Table Data for Backup Tables (NEW) ---------------------------------------
+  // -------------------------------------------------------------------------------
+
+  public backupTableData = [
+    {
+      year: '2025',
+      month: 'May',
+      inputData: 'Monthly Data',
+      backupTable1: 'Net Pay Table A',
+      backupTable2: 'Net Pay Table B',
+      backupTable3: 'Check Net Pay C',
+      backupTable3Duplicate: 'Ded Value H',
+      backupTable4: 'Reverse Net I',
+      clearStatus: { value: '50/200', file: 'clear-may.xlsx' },
+      outStatus: { value: '150/200', file: 'out-may.xlsx' }
+    },
+    {
+      year: '2025',
+      month: 'April',
+      inputData: 'Monthly Data',
+      backupTable1: 'Net Pay Table A',
+      backupTable2: 'Net Pay Table B',
+      backupTable3: 'Check Net Pay C',
+      backupTable3Duplicate: 'Ded Value H',
+      backupTable4: 'Reverse Net I',
+      clearStatus: { value: '50/200', file: 'clear-april.xlsx' },
+      outStatus: { value: '150/200', file: 'out-april.xlsx' }
+    },
+    {
+      year: '2025',
+      month: 'March',
+      inputData: 'Monthly Data',
+      backupTable1: 'Net Pay Table A',
+      backupTable2: 'Net Pay Table B',
+      backupTable3: 'Check Net Pay C',
+      backupTable3Duplicate: 'Ded Value H',
+      backupTable4: 'Reverse Net I',
+      clearStatus: { value: '50/200', file: 'clear-march.xlsx' },
+      outStatus: { value: '150/200', file: 'out-march.xlsx' }
+    }
+  ];
+
+  // Download Excel for a specific row/column
+  public downloadStatusExcel(fileName: string): void {
+    // In a real app, you would generate or fetch the file dynamically
+    // For demo, just trigger download from assets (ensure files exist or handle 404)
+    const fileUrl = `assets/${fileName}`;
+    this.downloadExcelFile(fileUrl);
   }
 
 }

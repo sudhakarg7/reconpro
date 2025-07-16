@@ -1,5 +1,194 @@
+body, .home-bg {
+  background: linear-gradient(135deg, #f7fafc 0%, #e3f0ff 100%);
+  min-height: 100vh;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif;
+}
+
+.container {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.card {
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.08), 0 1.5px 6px rgba(0,0,0,0.03);
+  background: #fff;
+  transition: box-shadow 0.2s;
+}
+.card:hover {
+  box-shadow: 0 8px 32px rgba(25, 118, 210, 0.13), 0 2px 8px rgba(0,0,0,0.06);
+}
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.card-title .icon {
+  font-size: 1.3rem;
+  color: #49a2eb;
+}
+.card-body {
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  min-height: 280px;
+  border-radius: 0 0 18px 18px;
+}
+
 canvas {
-    max-width: 800px;
-    margin: auto;
+  max-width: 100%;
+  margin: auto;
+  height: 250px !important;
+  display: block;
+}
+
+.table-responsive {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f7fafd;
+}
+.table {
+  margin-bottom: 0;
+  font-size: 0.98rem;
+  border-radius: 12px;
+  background: transparent;
+}
+.table thead {
+  background: #e3f0ff;
+}
+.table th, .table td {
+  padding: 0.75rem 0.7rem;
+  vertical-align: middle;
+  border-top: none;
+}
+.table tbody tr:nth-child(even) {
+  background: #f0f6ff;
+}
+.table tbody tr:hover {
+  background: #e3f0ff;
+  transition: background 0.2s;
+}
+.font-weight-bold {
+  font-weight: 600 !important;
+}
+.text-success {
+  color: #2e7d32 !important;
+}
+.text-danger {
+  color: #d32f2f !important;
+}
+.text-warning {
+  color: #fbc02d !important;
+}
+
+// Account Analysis Table Responsive & Compact
+.table-responsive[aria-label="Backup Table Data"] {
+  border-radius: 12px;
+  overflow-x: auto;
+  background: #f7fafd;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.06);
+  margin-bottom: 1rem;
+}
+.table[aria-label="Backup Table Data"],
+.table-responsive[aria-label="Backup Table Data"] .table {
+  font-size: 0.8rem;
+  border-radius: 12px;
+  background: transparent;
+  min-width: 700px;
+}
+.table[aria-label="Backup Table Data"] thead {
+  background: #e3f0ff;
+}
+.table[aria-label="Backup Table Data"] th, .table[aria-label="Backup Table Data"] td {
+  padding: 0.45rem 0.5rem;
+  vertical-align: middle;
+  border-top: none;
+  white-space: nowrap;
+}
+.table[aria-label="Backup Table Data"] tbody tr:nth-child(even) {
+  background: #f0f6ff;
+}
+.table[aria-label="Backup Table Data"] tbody tr:hover {
+  background: #e3f0ff;
+  transition: background 0.2s;
+}
+.table[aria-label="Backup Table Data"] th {
+  font-size: 0.5rem;
+  font-weight: 600;
+  color: #1976d2;
+  border-bottom: 2px solid #dbeafe;
+}
+.table[aria-label="Backup Table Data"] td {
+  font-size: 0.65rem;
+}
+.table[aria-label="Backup Table Data"] .btn-link {
+  color: #1976d2;
+  font-size: 0.62rem;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.table[aria-label="Backup Table Data"] .btn-link:hover, .table[aria-label="Backup Table Data"] .btn-link:focus {
+  color: #125ea2;
+  text-decoration: underline;
+}
+
+@media (max-width: 991px) {
+  .card-body {
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
   }
+  .container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  .card-title {
+    font-size: 1.05rem;
+  }
+  canvas {
+    height: 200px !important;
+  }
+  .table[aria-label="Backup Table Data"],
+  .table-responsive[aria-label="Backup Table Data"] .table {
+    font-size: 0.62rem;
+    min-width: 600px;
+  }
+  .table[aria-label="Backup Table Data"] th {
+    font-size: 0.62rem;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 0.5rem 0.2rem;
+  }
+  .card {
+    margin: 0.5rem 0;
+  }
+  .card-body {
+    padding: 0.7rem 0.3rem 0.7rem 0.3rem;
+  }
+  .card-title {
+    font-size: 0.98rem;
+  }
+  canvas {
+    height: 140px !important;
+  }
+  .table-responsive[aria-label="Backup Table Data"] {
+    border-radius: 8px;
+    margin: 0 -0.5rem 1rem -0.5rem;
+    box-shadow: 0 1px 6px rgba(25, 118, 210, 0.08);
+  }
+  .table[aria-label="Backup Table Data"],
+  .table-responsive[aria-label="Backup Table Data"] .table {
+    font-size: 0.6rem;
+    min-width: 500px;
+  }
+  .table[aria-label="Backup Table Data"] th {
+    font-size: 0.6rem;
+  }
+  .table[aria-label="Backup Table Data"] td {
+    font-size: 0.6rem;
+  }
+}
   

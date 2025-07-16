@@ -11,4 +11,47 @@
   .sidebar-hidden {
     width: 0;
   }
+
+// Sidebar overlay for mobile
+.sidebar-overlay-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  max-width: 80vw;
+  height: 100vh;
+  z-index: 1200;
+  background: #fff;
+  box-shadow: 2px 0 16px rgba(0,0,0,0.18);
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  border-radius: 0 12px 12px 0;
+}
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.18);
+  z-index: 1199;
+}
+
+.main-content-col.full-width {
+  width: 100% !important;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .sidebar-wrapper {
+    display: none;
+  }
+  .sidebar-overlay-mobile {
+    display: block;
+  }
+  .main-content-col.full-width {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
   

@@ -9,6 +9,7 @@ import { FormControl }         from '@angular/forms';
 import { Validators }          from '@angular/forms';
 import { Router }              from '@angular/router';
 import { RouterLink }          from '@angular/router';
+import { Inject } from '@angular/core';
 
 // External modules
 import { TranslateModule }     from '@ngx-translate/core';
@@ -35,11 +36,14 @@ export class LoginComponent
     password : FormControl<string>,
   }>;
 
-  constructor
-  (
-    private router       : Router,
-    private storeService : StoreService,
-    private appService   : AppService,
+  public showPassword: boolean = false;
+  public loading: boolean = false;
+  public loginError: string | null = null;
+
+  constructor(
+    @Inject(Router) private router: Router,
+    private storeService: StoreService,
+    private appService: AppService,
   )
   {
     this.initFormGroup();
@@ -69,7 +73,13 @@ export class LoginComponent
 
   public async onClickSubmit() : Promise<void>
   {
-    await this.authenticate();
+    this.loginError = null;
+    this.loading = true;
+    try {
+      await this.authenticate();
+    } finally {
+      this.loading = false;
+    }
   }
 
   // -------------------------------------------------------------------------------
@@ -78,17 +88,15 @@ export class LoginComponent
 
   private async authenticate() : Promise<void>
   {
-    this.storeService.isLoading.set(true);
-
+    // this.storeService.isLoading.set(true); // No longer needed for UI loading
     const email    = this.formGroup.controls.email.getRawValue();
     const password = this.formGroup.controls.password.getRawValue();
     const success  = await this.appService.authenticate(email, password);
-
-    this.storeService.isLoading.set(false);
-
-    if (!success)
+    // this.storeService.isLoading.set(false);
+    if (!success) {
+      this.loginError = 'Invalid email or password.';
       return;
-
+    }
     // NOTE Redirect to home
     this.router.navigate(['/home']);
   }
