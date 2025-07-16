@@ -1,0 +1,91 @@
+ngx-extended-pdf-viewer {
+    width: 100%;
+    height: 100%;
+  }
+
+
+
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .chat-message {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  input {
+    padding: 10px;
+    margin-top: auto;
+    border: 1px solid #ccc;
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .pdf-viewer {
+    flex: 2;
+    border-right: 1px solid #ccc;
+  }
+  
+  .chat-window {
+    flex: 1;
+    padding: 10px;
+  }
+  
+
+
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .upload-section {
+    margin-bottom: 20px;
+  }
+  
+  .pdf-viewer {
+    flex: 2;
+    border-right: 1px solid #ccc;
+  }
+  
+  .chat-window {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+  }
+  
+  .chat-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    max-width: 70%;
+  }
+  
+  .user-message {
+    align-self: flex-end;
+    background-color: #d1f7d6;
+  }
+  
+  .api-response {
+    align-self: flex-start;
+    background-color: #f1f0f0;
+  }
+  
+  input {
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  

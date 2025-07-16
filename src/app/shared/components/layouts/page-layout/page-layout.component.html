@@ -1,0 +1,15 @@
+<app-layout-header (sidebarToggle)="displaySidebar($event)"></app-layout-header>
+
+<div class="main-content">
+  <div class="row">
+    <div class="col-2">
+      <div  style="background-color: #f6f6f6;" [ngClass]="{'sidebar-visible': !isSideBarVisible, 'sidebar-hidden': isSideBarVisible}" class="sidebar-wrapper">
+        <app-sidebar></app-sidebar>
+      </div>
+    </div>
+
+    <div class="col">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

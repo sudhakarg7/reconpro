@@ -1,0 +1,57 @@
+<app-page-layout>
+    <div class="container px-4">
+      <div class="row">
+        <div class="col-md-12 p-4">
+          <h4>Profile List</h4>
+          <div class="card mb-5">
+            <div class="card-body">
+              <!-- Search and Clear Filter -->
+              <div class="row mb-4">
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search by AH ID or Username"
+                    [(ngModel)]="searchQuery"
+                    (input)="filterProfiles()"
+                  />
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-secondary" (click)="clearFilter()">
+                    Clear Filter
+                  </button>
+                </div>
+              </div>
+  
+              <!-- Profiles Table -->
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">AH ID</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Last Updated By</th>
+                      <th scope="col">Last Updated On</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let profile of filteredProfiles">
+                      <td>{{ profile.ahId }}</td>
+                      <td>{{ profile.name }}</td>
+                      <td>{{ profile.updatedBy }}</td>
+                      <td>{{ profile.updatedOn | date: 'shortDate' }}</td>
+                    </tr>
+                    <!-- No results message -->
+                    <tr *ngIf="filteredProfiles.length === 0">
+                      <td colspan="4" class="text-center">No profiles found</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-page-layout>
+  

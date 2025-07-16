@@ -1,0 +1,257 @@
+<app-page-layout>
+  <form [formGroup]="uploadForm" (ngSubmit)="submitForm()">
+    <div class="container px-4">
+      <div class="row">
+        <div class="col-md-12 p-3 pb-0">
+          <h4>Upload files</h4>
+          <p class="small">Upload post files in the system.</p>
+          <div class="card mb-5">
+            <div class="card-body">
+              <div class="row">
+                <!-- Client Field -->
+                <div class="col-md-12">
+                  <div class="card mb-2">
+                    <div class="card-body">
+                      <div class="form-group row">
+                        <label for="client" class="col-sm-2 col-form-label"
+                          >Choose Client:</label
+                        >
+                        <div class="col-sm-10">
+                          <select
+                            id="client"
+                            formControlName="client"
+                            class="form-control"
+                          >
+                            <option value="">Select Client</option>
+                            <option value="Client1">Client 1</option>
+                            <option value="Client2">Client 2</option>
+                          </select>
+                          <div
+                            *ngIf="
+                              uploadForm.get('client')?.invalid &&
+                              uploadForm.get('client')?.touched
+                            "
+                            class="text-danger small"
+                          >
+                            Client is required.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Post GL Summary Field -->
+                <div class="col-md-6 mb-4">
+                  <div class="card text-left">
+                    <div class="card-body">
+                      <h4 class="card-title small font-weight-bold">
+                        Post GL Summary
+                      </h4>
+                      <div class="upload-container">
+                        <div class="upload-box">
+                          <p class="text-muted small">
+                            <img
+                              src="assets/images/xls.png"
+                              class="mb-1"
+                              height="30px"
+                            /><br />
+                            Drag & Drop your CSV file here or
+                            <span
+                              class="browse-text"
+                              (click)="summaryFileInput.click()"
+                              >Browse</span
+                            >
+                          </p>
+                          <input
+                            type="file"
+                            #summaryFileInput
+                            (change)="onFileSelected($event, 'postGLSummary')"
+                            accept=".csv"
+                            hidden
+                          />
+                        </div>
+                        <div
+                          *ngIf="uploadForm.get('postGLSummary')?.value"
+                          class="file-info"
+                        >
+                          <p>{{ uploadForm.get("postGLSummary")?.value }}</p>
+                        </div>
+                        <div
+                          *ngIf="
+                            uploadForm.get('postGLSummary')?.invalid &&
+                            uploadForm.get('postGLSummary')?.touched
+                          "
+                          class="text-danger small"
+                        >
+                          File is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Post GL Details Field -->
+                <div class="col-md-6 mb-4">
+                  <div class="card text-left">
+                    <div class="card-body">
+                      <h4 class="card-title small font-weight-bold">
+                        Post GL Details
+                      </h4>
+                      <div class="upload-container">
+                        <div class="upload-box">
+                          <p class="text-muted small">
+                            <img
+                              src="assets/images/xls.png"
+                              class="mb-1"
+                              height="30px"
+                            /><br />
+                            Drag & Drop your CSV file here or
+                            <span
+                              class="browse-text"
+                              (click)="detailsFileInput.click()"
+                              >Browse</span
+                            >
+                          </p>
+                          <input
+                            type="file"
+                            #detailsFileInput
+                            (change)="onFileSelected($event, 'postGLDetails')"
+                            accept=".csv"
+                            hidden
+                          />
+                        </div>
+                        <div
+                          *ngIf="uploadForm.get('postGLDetails')?.value"
+                          class="file-info"
+                        >
+                          <p>{{ uploadForm.get("postGLDetails")?.value }}</p>
+                        </div>
+                        <div
+                          *ngIf="
+                            uploadForm.get('postGLDetails')?.invalid &&
+                            uploadForm.get('postGLDetails')?.touched
+                          "
+                          class="text-danger small"
+                        >
+                          File is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Post Payroll Field -->
+                <div class="col-md-6 mb-4">
+                  <div class="card text-left">
+                    <div class="card-body">
+                      <h4 class="card-title small font-weight-bold">
+                        Post Payroll
+                      </h4>
+                      <div class="upload-container">
+                        <div class="upload-box">
+                          <p class="text-muted small">
+                            <img
+                              src="assets/images/xls.png"
+                              class="mb-1"
+                              height="30px"
+                            /><br />
+                            Drag & Drop your CSV file here or
+                            <span
+                              class="browse-text"
+                              (click)="payrollFileInput.click()"
+                              >Browse</span
+                            >
+                          </p>
+                          <input
+                            type="file"
+                            #payrollFileInput
+                            (change)="onFileSelected($event, 'postPayroll')"
+                            accept=".csv"
+                            hidden
+                          />
+                        </div>
+                        <div
+                          *ngIf="uploadForm.get('postPayroll')?.value"
+                          class="file-info"
+                        >
+                          <p>{{ uploadForm.get("postPayroll")?.value }}</p>
+                        </div>
+                        <div
+                          *ngIf="
+                            uploadForm.get('postPayroll')?.invalid &&
+                            uploadForm.get('postPayroll')?.touched
+                          "
+                          class="text-danger small"
+                        >
+                          File is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Post Fidelity Field -->
+                <div class="col-md-6 mb-4">
+                  <div class="card text-left">
+                    <div class="card-body">
+                      <h4 class="card-title small font-weight-bold">
+                        Post Fidelity
+                      </h4>
+                      <div class="upload-container">
+                        <div class="upload-box">
+                          <p class="text-muted small">
+                            <img
+                              src="assets/images/xls.png"
+                              class="mb-1"
+                              height="30px"
+                            /><br />
+                            Drag & Drop your CSV file here or
+                            <span
+                              class="browse-text"
+                              (click)="fidelityFileInput.click()"
+                              >Browse</span
+                            >
+                          </p>
+                          <input
+                            type="file"
+                            #fidelityFileInput
+                            (change)="onFileSelected($event, 'postFidelity')"
+                            accept=".csv"
+                            hidden
+                          />
+                        </div>
+                        <div
+                          *ngIf="uploadForm.get('postFidelity')?.value"
+                          class="file-info"
+                        >
+                          <p>{{ uploadForm.get("postFidelity")?.value }}</p>
+                        </div>
+                        <div
+                          *ngIf="
+                            uploadForm.get('postFidelity')?.invalid &&
+                            uploadForm.get('postFidelity')?.touched
+                          "
+                          class="text-danger small"
+                        >
+                          File is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-md-12 text-right">
+              <button type="submit" class="btn btn-primary btn-lg mr-1">
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</app-page-layout>

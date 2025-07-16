@@ -1,8 +1,24 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+/// <reference types="@angular/localize" />
 
-import { AppModule } from './app/app.module';
+// Angular modules
+import { enableProdMode }       from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
 
-platformBrowserDynamic().bootstrapModule(AppModule, {
-  ngZoneEventCoalescing: true
-})
-  .catch(err => console.error(err));
+// External modules
+import { appConfig }            from './app/app.config';
+
+// Internal modules
+import { environment }          from './environments/environment';
+
+// Components
+import { AppComponent }         from './app/app.component';
+
+if (environment.production) {
+  enableProdMode();
+}
+
+bootstrapApplication(
+  AppComponent,
+  appConfig
+)
+.catch(err => console.error(err));

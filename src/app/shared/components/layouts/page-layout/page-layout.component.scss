@@ -1,0 +1,14 @@
+/* Base styles for the sidebar */
+.sidebar-wrapper {
+    transition: width 0.3s ease-in-out;
+    overflow: hidden;
+  }
+  
+  .sidebar-visible {
+    width: 250px; /* Adjust to the desired width when the sidebar is visible */
+  }
+  
+  .sidebar-hidden {
+    width: 0;
+  }
+  

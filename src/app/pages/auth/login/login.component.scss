@@ -1,0 +1,19 @@
+.wrapper {
+  max-width: 350px;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .auth-layout-wrap .auth-content {
+      min-width: 430px;
+  }
+}
+.auth-layout-wrap .auth-content {
+  max-width: 660px;
+  margin: auto;
+}
+
+.auth-logo img {
+  width:auto;
+  height: 50px;
+}

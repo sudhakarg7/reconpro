@@ -1,0 +1,77 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div *ngFor="let field of fields" class="form-group">
+  
+      <!-- Input Field (Text, Email, Date, etc.) -->
+      <div *ngIf="['text', 'email', 'password', 'url', 'tel', 'date', 'hidden'].includes(field.type)">
+        <label>{{ field.label }}</label>
+        <input 
+          [attr.type]="field.type" 
+          [formControlName]="field.name" 
+          [placeholder]="field.placeholder"
+          class="form-control"
+        />
+        <ng-container *ngFor="let validation of field.validations">
+          <small class="text-danger" *ngIf="form.get(field.name)?.hasError(validation.name)">
+            {{ validation.message || 'Invalid input' }}
+          </small>
+        </ng-container>
+      </div>
+  
+      <!-- File Input -->
+      <div *ngIf="field.type === 'file'">
+        <label>{{ field.label }}</label>
+        <input type="file" [formControlName]="field.name" class="form-control" />
+      </div>
+  
+      <!-- Checkbox -->
+      <div *ngIf="field.type === 'checkbox'">
+        <label>
+          <input type="checkbox" [formControlName]="field.name" />
+          {{ field.label }}
+        </label>
+      </div>
+  
+      <!-- Radio Button -->
+      <div *ngIf="field.type === 'radio'">
+        <label>{{ field.label }}</label>
+        <div *ngFor="let option of field.options">
+          <label>
+            <input type="radio" [formControlName]="field.name" [value]="option.value" />
+            {{ option.label }}
+          </label>
+        </div>
+      </div>
+  
+      <!-- Range Input -->
+      <div *ngIf="field.type === 'range'">
+        <label>{{ field.label }}</label>
+        <input type="range" [formControlName]="field.name" class="form-control" />
+      </div>
+  
+      <!-- Select Dropdown -->
+      <div *ngIf="field.type === 'select'">
+        <label>{{ field.label }}</label>
+        <select [formControlName]="field.name" class="form-control">
+          <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
+        </select>
+      </div>
+  
+      <!-- Textarea -->
+      <div *ngIf="field.type === 'textarea'">
+        <label>{{ field.label }}</label>
+        <textarea [formControlName]="field.name" [placeholder]="field.placeholder" class="form-control"></textarea>
+      </div>
+  
+      <!-- Button -->
+      <div *ngIf="field.type === 'button'">
+        <button type="button" class="btn btn-primary">{{ field.label }}</button>
+      </div>
+  
+      <!-- Submit Button -->
+      <div *ngIf="field.type === 'submit'">
+        <button type="submit" class="btn btn-success">{{ field.label }}</button>
+      </div>
+  
+    </div>
+  </form>
+  

@@ -1,0 +1,73 @@
+<input type="file" (change)="onFileSelected($event)">
+<!-- <button (click)="askQuestion()">Ask Ollama</button> -->
+
+<!-- <div *ngIf="extractedText">
+  <h3>Extracted Text:</h3>
+  <pre>{{ extractedText }}</pre>
+</div>
+
+<div *ngIf="ollamaResponse">
+  <h3>Ollama Response:</h3>
+  <pre>{{ ollamaResponse |json }}</pre>
+</div> -->
+
+<!-- <button (click)="askQuestion()">Ask Ollama</button>
+
+<div *ngIf="isLoading">Loading...</div>
+
+<div *ngIf="ollamaResponse">
+    <h3>Ollama Response:</h3>
+    <pre>{{ ollamaResponse }}</pre>
+  </div> -->
+
+
+  <div class="container">
+    <h2>Ask a Question</h2>
+  
+    <div>
+      <input type="text" #queryInput placeholder="Enter your query" [(ngModel)]="queryInputs" />
+      {{queryInputs}}
+      <!-- <button (click)="startSseStreamFinal(queryInput.value, extractedText)">Ask</button> -->
+      <button (click)="pingOllama()">Ask</button>
+    </div>
+  
+    <div *ngIf="isLoading" class="loading">
+      <p>Loading response...</p>
+    </div>
+  
+    <div class="response">
+      <h3>Ollama Response:</h3>
+      <pre>{{ ollamaResponse$ | async |json }}</pre> <!-- Display the response here -->
+    </div>
+  </div>
+
+
+
+  <!-- <div class="container">
+    <h2>Streaming Server-Sent Events</h2>
+  
+    <div *ngIf="isLoading">
+      <p>Loading data...</p>
+    </div>
+  
+    <div class="streamed-data">
+      <h3>Streamed Data:</h3>
+      <pre *ngFor="let chunk of sseData">{{ chunk }}</pre>  
+    </div>
+  </div> -->
+
+  <div *ngIf="data$ | async as data">{{ data | json }}</div>
+
+
+  <div class="container">
+    <h2>Streaming Data from Server</h2>
+  
+    <div *ngIf="isLoading">
+      <p>Loading data from server...</p>
+    </div>
+  
+    <div class="streamed-data">
+      <h3>Streamed Data:</h3>
+      <pre *ngFor="let chunk of sseData">{{ chunk }}</pre>  <!-- Display each data chunk as it arrives -->
+    </div>
+  </div>

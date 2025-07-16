@@ -1,0 +1,192 @@
+<app-page-layout>
+  <!-- <div class="container my-3">
+
+    <app-progress-bar *ngIf="storeService.isLoading()"></app-progress-bar>
+
+    <ng-container *ngIf="!storeService.isLoading()">
+      <div class="text-center">
+        Let's start the project!
+      </div>
+    </ng-container>
+
+  </div> -->
+    
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="card m-2">
+          <div class="card-body">
+            <div class="card-title h6">Account Analysis Chart View</div>
+            <div class="row">
+              <div class="col-md-12">
+                <canvas
+                  baseChart
+                  [data]="barChartData"
+                  [options]="barChartOptions"
+                  [type]="barChartType"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"
+                  style="width: 100%; height: 200px"
+                >
+                </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12 pl-0">
+        <div class="card m-2">
+          <div class="card-body">
+            <div class="card-title h6">GL Summary </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div style="display: block;">
+                  <canvas baseChart
+                          [data]="doughnutChartData"
+                          [options]="doughnutChartOptions"
+                          [type]="doughnutChartType"
+                          style="height: 100px;">
+                  </canvas>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12 col-md-12">
+        <div class="card m-2">
+          <div class="card-body">
+            <div class="card-title h6">Account Analysis</div>
+            <div class="row">
+              <div class="col-md-12 small">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">P06-2024 General Ledger</th>
+                        <th scope="col">Reconciling</th>
+                        <th scope="col">2024</th>
+                        <th scope="col">Payroll Wk1</th>
+                        <th scope="col">Payroll Wk2</th>
+                        <th scope="col">Payroll Wk3</th>
+                        <th scope="col">Payroll Wk4</th>
+                        <th scope="col">Total General Ledger</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Opening Balance</td>
+                        <td class="font-weight-bold text-success">
+                          $22,835.99
+                        </td>
+                        <td class="font-weight-bold text-danger">
+                          ($42,407.44)
+                        </td>
+                        <td class="font-weight-bold text-danger"></td>
+                        <td class="font-weight-bold text-danger"></td>
+                        <td class="font-weight-bold text-danger"></td>
+                        <td class="font-weight-bold text-danger"></td>
+                        <td class="font-weight-bold text-danger">
+                          ($19,571.45)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Payroll Activity</td>
+                        <td class="font-weight-bold"></td>
+                        <td class="font-weight-bold"></td>
+                        <td class="font-weight-bold text-danger">($563.81)</td>
+                        <td class="font-weight-bold text-danger">
+                          ($2,720,707.75)
+                        </td>
+                        <td class="font-weight-bold text-danger">
+                          ($1,311.01)
+                        </td>
+                        <td class="font-weight-bold text-danger">
+                          ($2,618,335.23)
+                        </td>
+                        <td class="font-weight-bold text-danger">
+                          ($5,340,917.80)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Funding</td>
+                        <td class="font-weight-bold"></td>
+                        <td class="font-weight-bold"></td>
+                        <td class="font-weight-bold">$30,470.29</td>
+                        <td class="font-weight-bold">$2,580,225.61</td>
+                        <td class="font-weight-bold">$25,022.90</td>
+                        <td class="font-weight-bold">$2,503,856.08</td>
+                        <td class="font-weight-bold">$5,139,574.88</td>
+                      </tr>
+
+                      <tr>
+                        <td>Mismapping Reclass</td>
+                        <td class="text-warning font-weight-bold"></td>
+                        <td class="text-warning font-weight-bold"></td>
+                        <td class="text-warning font-weight-bold"></td>
+                        <td class="font-weight-bold">$34,644.64</td>
+
+                        <td class="text-warning font-weight-bold"></td>
+                        <td class="font-weight-bold">$35,464.39</td>
+                        <td class="font-weight-bold">$70,109.03</td>
+                      </tr>
+                      <tr>
+                        <td>GL Adj/JE's</td>
+                        <td class="text-warning font-weight-bold">
+                          $68,087.18
+                        </td>
+                        <td class="text-warning font-weight-bold"></td>
+                        <td class="text-warning font-weight-bold"></td>
+                        <td class="text-warning font-weight-bold"></td>
+                        <td class="text-warning font-weight-bold"></td>
+                        <td class="text-warning font-weight-bold"></td>
+                        <td class="text-warning font-weight-bold">
+                          $68,087.18
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Interco With OTHR Divisions</td>
+                        <td class="text-warning text-danger">($141,953.57)</td>
+                        <td class="text-success">$41,576.67</td>
+                        <td class="text-warning text-danger">($29,909.89)</td>
+                        <td class="text-success">$103,907.34</td>
+                        <td class="text-warning text-danger">($23,711.48)</td>
+                        <td class="text-success">$50,087.93</td>
+                        <td class="text-success">$0.00</td>
+                      </tr>
+                      <tr>
+                        <td class="font-weight-bold">Total</td>
+                        <td class="text-warning font-weight-bold text-danger">
+                          ($51,030.40)
+                        </td>
+                        <td class="text-warning font-weight-bold text-danger">
+                          ($830.77)
+                        </td>
+
+                        <td class="text-success font-weight-bold">($0.00)</td>
+                        <td class="text-warning font-weight-bold text-danger">
+                          ($1,930.16)
+                        </td>
+                        <td class="text-success font-weight-bold">($0.00)</td>
+                        <td class="text-warning font-weight-bold text-danger">
+                          ($28,926.83)
+                        </td>
+                        <td class="text-warning font-weight-bold text-danger">
+                          ($82,718.16)
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+</app-page-layout>

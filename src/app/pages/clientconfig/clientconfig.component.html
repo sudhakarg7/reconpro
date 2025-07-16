@@ -1,0 +1,254 @@
+<app-page-layout>
+  <div class="container px-4">
+    <div class="row">
+      <div class="col-md-12 p-4">
+        <h4>Client Config</h4>
+        <p class="small">
+          A form control layout using row with left label alignment.
+        </p>
+        <div class="card mb-5">
+          <div class="card-body">
+            <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+              <div class="card mb-2">
+                <div class="card-body">
+                  <!-- Client Field -->
+                  <div class="form-group row">
+                    <!-- <div class="form-group row">
+                              <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                              <div class="col-sm-10">
+                                  <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                              </div>
+                          </div> -->
+
+                    <label for="client" class="col-sm-2 col-form-label"
+                      >Choose Client:</label
+                    >
+
+                    <div class="col-sm-10">
+                      <select
+                        id="client"
+                        formControlName="client"
+                        class="form-control"
+                      >
+                        <option value="">Select Client</option>
+                        <option value="Client1">Client 1</option>
+                        <option value="Client2">Client 2</option>
+                      </select>
+                      <div
+                        *ngIf="clientForm.controls['client']?.errors?.['required'] && clientForm.controls['client'].touched"
+                        class="text-danger small"
+                      >
+                        Client is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SFDP Location Field -->
+              <div class="card mb-2">
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="sfdpLocation"
+                      >SFTP Location:</label
+                    >
+                    <div class="col-sm-10">
+                      <input
+                        id="sfdpLocation"
+                        class="form-control"
+                        type="text"
+                        formControlName="sfdpLocation"
+                      />
+                      <div
+                        class="text-danger small"
+                        *ngIf="clientForm.controls['sfdpLocation']?.errors?.['required'] && clientForm.controls['sfdpLocation'].touched"
+                      >
+                        SFTP Location is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-2">
+                <div class="card-body">
+                  <div class="form-group row">
+                    <div class="col-sm-4">
+                      <!-- API URL Field -->
+                      <label class="col-sm-12 col-form-label" for="apiUrl"
+                        >API URL:</label
+                      >
+                      <div class="col-sm-12">
+                        <input
+                          id="apiUrl"
+                          type="url"
+                          class="form-control"
+                          formControlName="apiUrl"
+                        />
+                        <div
+                          class="text-danger small"
+                          *ngIf="clientForm.controls['apiUrl']?.errors?.['required'] && clientForm.controls['apiUrl'].touched"
+                        >
+                          API URL is required.
+                        </div>
+                        <div
+                          class="text-danger small"
+                          *ngIf="clientForm.controls['apiUrl']?.errors?.['pattern'] && clientForm.controls['apiUrl'].touched"
+                        >
+                          Please enter a valid URL.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <!-- Username Field -->
+                      <label class="col-sm-12 col-form-label" for="username"
+                        >Username:</label
+                      >
+                      <div class="col-sm-12">
+                        <input
+                          id="username"
+                          type="email"
+                          class="form-control"
+                          formControlName="username"
+                        />
+                        <div
+                          class="text-danger small"
+                          *ngIf="clientForm.controls['username']?.errors?.['required'] && clientForm.controls['username'].touched"
+                        >
+                          Username is required.
+                        </div>
+                        <div
+                          class="text-danger small"
+                          *ngIf="clientForm.controls['username']?.errors?.['email'] && clientForm.controls['username'].touched"
+                        >
+                          Please enter a valid email.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <!-- Password Field -->
+                      <label class="col-sm-12 col-form-label" for="password"
+                        >Password:</label
+                      >
+                      <div class="col-sm-12">
+                        <input
+                          id="password"
+                          type="password"
+                          class="form-control"
+                          formControlName="password"
+                        />
+                        <div
+                          class="text-danger small"
+                          *ngIf="clientForm.controls['password']?.errors?.['required'] && clientForm.controls['password'].touched"
+                        >
+                          Password is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-2">
+                <div class="card-body">
+                  <!-- Shared Location URL Field -->
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="sharedLocation"
+                      >Shared Location URL:</label
+                    >
+                    <div class="col-sm-10">
+                      <input
+                        id="sharedLocation"
+                        class="form-control"
+                        type="url"
+                        formControlName="sharedLocation"
+                      />
+                      <div
+                        class="text-danger small"
+                        *ngIf="clientForm.controls['sharedLocation']?.errors?.['required'] && clientForm.controls['sharedLocation'].touched"
+                      >
+                        Shared Location URL is required.
+                      </div>
+                      <div
+                        class="text-danger small"
+                        *ngIf="clientForm.controls['sharedLocation']?.errors?.['pattern'] && clientForm.controls['sharedLocation'].touched"
+                      >
+                        Please enter a valid URL.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-right mr-2">
+                <!-- Submit Button -->
+                <button
+                  type="submit"
+                  [disabled]="clientForm.invalid"
+                  class="btn btn-primary btn-lg"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+
+            <!-- <form>
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                            </div>
+                        </div>
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <div class="col-form-label col-sm-2 pt-0">Radios</div>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                                        <label class="form-check-label ml-3" for="gridRadios1">
+                                            First radio
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                        <label class="form-check-label ml-3" for="gridRadios2">
+                                            Second radio
+                                        </label>
+                                    </div>
+                                    <div class="form-check disabled ">
+                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
+                                        <label class="form-check-label ml-3" for="gridRadios3">
+                                            Third disabled radio
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="form-group row">
+                            <div class="col-sm-2">Checkbox</div>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck1">
+                                    <label class="form-check-label ml-3" for="gridCheck1">
+                                        Example checkbox
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary">Sign in</button>
+                            </div>
+                        </div>
+                    </form> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-page-layout>

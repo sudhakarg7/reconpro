@@ -1,0 +1,96 @@
+<!-- <div class="text-center text-primary mb-4">
+  <div class="h2 fw-normal mb-0">{{ 'WELCOME_TO' | translate }}</div>
+  <div class="h1 fw-bold text-uppercase">{{ appName }}</div>
+  <div class="fw-normal text-black">{{ 'PROJECT_DESC' | translate }}</div>
+</div> -->
+
+<!--  -->
+<div class="auth-layout-wrap" style="background-image: url(./assets/images/photo-wide-4.jpg)">
+  <div class="auth-content">
+      <div class="card o-hidden">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="p-4">
+                      <div class="auth-logo text-center mb-4">
+                          <img src="assets/images/logo-text.png" alt="">
+                      </div>
+                      <h1 class="mb-3 text-18 text-center">Sign In</h1>
+                      <form [formGroup]="formGroup" (ngSubmit)="onClickSubmit()">
+                          <div class="form-group">
+                              <label for="email">Email address</label>
+                              <input id="email" class="form-control form-control-rounded" type="email"formControlName="email"
+                              [ngClass]="{ 'is-invalid' : formGroup.controls.email.errors && formGroup.controls.email.touched }">
+                            <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('required')">
+                              {{ 'FIELD_REQUIRED' | translate }}
+                            </div>
+                            <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('email')">
+                              {{ 'FIELD_EMAIL' | translate }}
+                            </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="password">Password</label>
+                              <input id="password" class="form-control form-control-rounded" type="password" formControlName="password"
+                              [ngClass]="{ 'is-invalid' : formGroup.controls.password.errors && formGroup.controls.password.touched }">
+                            <div class="invalid-feedback" *ngIf="formGroup.controls.password.hasError('required')">
+                              {{ 'FIELD_REQUIRED' | translate }}
+                            </div>
+                          </div>
+                          <button class="btn btn-rounded btn-primary btn-block mt-2"
+                          type="submit" [disabled]="!formGroup.valid">Sign In</button>
+
+                      </form>
+
+                      <div class="mt-3 text-center">
+                          <a routerLink="/auth/forgot-password" class="text-muted"><u>Forgot Password?</u></a>
+                      </div>
+                  </div>
+              </div>
+              
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- end -->
+
+<!-- <div class="d-flex justify-content-center">
+  <div class="wrapper">
+
+    <form [formGroup]="formGroup" (ngSubmit)="onClickSubmit()">
+
+      <div class="mb-3">
+        <label for="email" class="form-label text-start w-100">{{ 'EMAIL' | translate }}</label>
+        <input type="email" class="form-control" id="email"
+          formControlName="email"
+          [ngClass]="{ 'is-invalid' : formGroup.controls.email.errors && formGroup.controls.email.touched }">
+        <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('required')">
+          {{ 'FIELD_REQUIRED' | translate }}
+        </div>
+        <div class="invalid-feedback" *ngIf="formGroup.controls.email.hasError('email')">
+          {{ 'FIELD_EMAIL' | translate }}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label text-start w-100">{{ 'PASSWORD' | translate }}</label>
+        <input type="password" class="form-control" id="password"
+          formControlName="password"
+          [ngClass]="{ 'is-invalid' : formGroup.controls.password.errors && formGroup.controls.password.touched }">
+        <div class="invalid-feedback" *ngIf="formGroup.controls.password.hasError('required')">
+          {{ 'FIELD_REQUIRED' | translate }}
+        </div>
+      </div>
+
+      <div class="text-end mb-3">
+        <a routerLink="/auth/forgot-password" class="">{{ 'FORGOT_YOUR_PWD' | translate }}</a>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary mb-3 px-5" [disabled]="!formGroup.valid">
+          <span class="px-4 d-block">{{ 'SIGN_IN' | translate }}</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div> -->

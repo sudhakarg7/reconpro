@@ -1,0 +1,44 @@
+.main-content{
+    position: relative;
+    top: 80px;
+}
+
+.sidebarlist{
+    height: 100vh;
+    box-shadow: 0 4px 20px 1px rgba(0, 0, 0, .06), 0 1px 4px rgba(0, 0, 0, .08);
+    list-style: none;
+    padding: 0;
+}
+
+.sidebarlist li.nav-item{
+    display: block;
+}
+
+.sidebarlist li.nav-item a{
+    color: #332e38;
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 12px 24px;
+    transition: all .15s ease-in;
+}
+
+.sidebarlist li.nav-item a .nav-icon{
+    font-size: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+    color: #70657b;
+}
+
+.sidebarlist li.nav-item a .item-name{
+    vertical-align: middle;
+    font-weight: 400;
+}
+
+.sidebarlist li.nav-item a:hover{
+    background: #eee;
+}
+
+

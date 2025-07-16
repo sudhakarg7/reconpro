@@ -1,0 +1,93 @@
+<app-page-layout>
+    <div class="container px-4">
+      <div class="row">
+        <div class="col-md-12 p-4">
+          <h4>Run Reports</h4>
+          <div class="card mb-5">
+            <div class="card-body">
+              <form [formGroup]="runReportForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row">
+                  <!-- Division Field -->
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label for="division" class="col-sm-12 col-form-label">Division:</label>
+                      <div class="col-sm-12">
+                        <select id="division" formControlName="division" class="form-control">
+                          <option value="">Select Division</option>
+                          <option value="division1">Division 1</option>
+                          <option value="division2">Division 2</option>
+                          <option value="division3">Division 3</option>
+                        </select>
+                        <div class="text-danger small" *ngIf="runReportForm.controls['division']?.errors?.['required'] && runReportForm.controls['division'].touched">
+                          Division is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- Funding Period Field -->
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label for="fundingPeriod" class="col-sm-12 col-form-label">Funding Period:</label>
+                      <div class="col-sm-12">
+                        <input id="fundingPeriod" class="form-control" type="date" formControlName="fundingPeriod" />
+                        <div class="text-danger small" *ngIf="runReportForm.controls['fundingPeriod']?.errors?.['required'] && runReportForm.controls['fundingPeriod'].touched">
+                          Funding Period is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Reports Table -->
+                <div class="row mb-4">
+                  <div class="col-md-12">
+                    <div class="card text-left">
+                      <div class="card-body">
+                        <h4 class="card-title mb-3">Reports</h4>
+                        <div class="table-responsive">
+                          <table class="table">
+                            <thead>
+                              <tr>
+                                <th scope="col">Report Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let report of reports">
+                                <td>{{ report.name }}</td>
+                                <td>{{ report.description }}</td>
+                                <td>{{ report.status }}</td>
+                                <td>
+                                  <a href="#" class="text-success mr-2">
+                                    <i class="nav-icon i-Pen-2 font-weight-bold"></i>
+                                  </a>
+                                  <a href="#"  class="text-danger mr-2">
+                                    <i class="nav-icon i-Close-Window font-weight-bold"></i>
+                                  </a>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Run Button -->
+                <div class="col-md-12 text-right">
+                  <button type="submit" [disabled]="runReportForm.invalid" class="btn btn-primary btn-lg">
+                    Run
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-page-layout>
+  

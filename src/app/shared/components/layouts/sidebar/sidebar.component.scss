@@ -1,0 +1,51 @@
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 10px;
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: black;
+  }
+  
+  .active {
+    background-color: #dddddd; /* Highlight background color */
+    border-radius: 4px;
+  }
+
+
+  .submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding-left: 20px;
+  }
+  
+  .submenu.open {
+    max-height: 500px; /* Arbitrarily large max-height to accommodate submenu items */
+    padding-left: 20px; /* Adjust padding when open */
+  }
+  
+  .submenu li {
+    padding-left: 15px;
+  }
+  
+  .submenu-arrow {
+    float: right;
+    transition: transform 0.3s ease;
+  }
+  
+  .submenu-arrow.open {
+    transform: rotate(90deg);
+  }
+  
+  .nav-item a {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+  }
+  

@@ -1,0 +1,176 @@
+<app-page-layout>
+    <div class="container px-4">
+      <div class="row">
+        <div class="col-md-12 p-4">
+          <h4>Create Profile</h4>
+          <div class="card mb-5">
+            <div class="card-body">
+              <form [formGroup]="createProfileForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row">
+                <!-- User ID Field -->
+                <div class="col-md-6">
+                 <div class="form-group row">
+                      <label for="userid" class="col-sm-12 col-form-label">User ID:</label>
+                      <div class="col-sm-12">
+                        <input
+                          id="userid"
+                          class="form-control"
+                          type="text"
+                          formControlName="userid"
+                        />
+                        <div class="text-danger small" *ngIf="createProfileForm.controls['userid']?.errors?.['required'] && createProfileForm.controls['userid'].touched">
+                          User ID is required.
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+
+
+                     <!-- Email Field -->
+                <div class="col-md-6">
+                    <div class="form-group row">
+                         <label for="email" class="col-sm-12 col-form-label">Email:</label>
+                         <div class="col-sm-12">
+                           <input
+                             id="email"
+                             class="form-control"
+                             type="email"
+                             formControlName="email"
+                           />
+                           <div class="text-danger small" *ngIf="createProfileForm.controls['email']?.errors?.['required'] && createProfileForm.controls['email'].touched">
+                             Email is required.
+                           </div>
+                           <div class="text-danger small" *ngIf="createProfileForm.controls['email']?.errors?.['email'] && createProfileForm.controls['email'].touched">
+                             Please enter a valid email.
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                  
+  
+                <!-- First Name Field -->
+                <div class="col-md-4">
+                 <div class="form-group row">
+                      <label for="firstName" class="col-sm-12 col-form-label">First Name:</label>
+                      <div class="col-sm-12">
+                        <input
+                          id="firstName"
+                          class="form-control"
+                          type="text"
+                          formControlName="firstName"
+                        />
+                        <div class="text-danger small" *ngIf="createProfileForm.controls['firstName']?.errors?.['required'] && createProfileForm.controls['firstName'].touched">
+                          First Name is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                <!-- Last Name Field -->
+                <div class="col-md-4">
+                 <div class="form-group row">
+                      <label for="lastName" class="col-sm-12 col-form-label">Last Name:</label>
+                      <div class="col-sm-12">
+                        <input
+                          id="lastName"
+                          class="form-control"
+                          type="text"
+                          formControlName="lastName"
+                        />
+                        <div class="text-danger small" *ngIf="createProfileForm.controls['lastName']?.errors?.['required'] && createProfileForm.controls['lastName'].touched">
+                          Last Name is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                <!-- Status Field -->
+                <div class=" col-md-4">
+                 <div class="form-group row">
+                      <label for="status" class="col-sm-12 col-form-label">Choose Status:</label>
+                      <div class="col-sm-12">
+                        <select id="status" formControlName="status" class="form-control">
+                          <option value="">Select Status</option>
+                          <option value="active">Active</option>
+                          <option value="inactive">Inactive</option>
+                        </select>
+                        <div class="text-danger small" *ngIf="createProfileForm.controls['status']?.errors?.['required'] && createProfileForm.controls['status'].touched">
+                          Status is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+               
+  
+                <!-- Start Date Field -->
+                <div class="col-md-4">
+                 <div class="form-group row">
+                      <label for="startDate" class="col-sm-12 col-form-label">Start Date:</label>
+                      <div class="col-sm-12">
+                        <input
+                          id="startDate"
+                          class="form-control"
+                          type="date"
+                          formControlName="startDate"
+                        />
+                        <div class="text-danger small" *ngIf="createProfileForm.controls['startDate']?.errors?.['required'] && createProfileForm.controls['startDate'].touched">
+                          Start Date is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                <!-- End Date Field -->
+                <div class="col-md-4">
+                 <div class="form-group row">
+                      <label for="endDate" class="col-sm-12 col-form-label">End Date:</label>
+                      <div class="col-sm-12">
+                        <input
+                          id="endDate"
+                          class="form-control"
+                          type="date"
+                          formControlName="endDate"
+                        />
+                        <div class="text-danger small" *ngIf="createProfileForm.controls['endDate']?.errors?.['required'] && createProfileForm.controls['endDate'].touched">
+                          End Date is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                <!-- Role Field -->
+                <div class="col-md-4">
+                 <div class="form-group row">
+                      <label for="role" class="col-sm-12 col-form-label">Role:</label>
+                      <div class="col-sm-12">
+                        <select id="role" formControlName="role" class="form-control">
+                          <option value="">Select Role</option>
+                          <option value="admin">Admin</option>
+                          <option value="user">User</option>
+                          <option value="viewer">Viewer</option>
+                        </select>
+                        <div class="text-danger small" *ngIf="createProfileForm.controls['role']?.errors?.['required'] && createProfileForm.controls['role'].touched">
+                          Role is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+            </div>
+            <div class="col-md-12 text-right">
+                <!-- Submit Button -->
+                <button type="submit" [disabled]="createProfileForm.invalid" class="btn btn-primary btn-lg">
+                    Submit
+                  </button>
+            </div>
+                
+  
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-page-layout>
+  

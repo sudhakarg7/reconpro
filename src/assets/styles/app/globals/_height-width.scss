@@ -1,0 +1,38 @@
+// ================== Heights ================
+// Exclude $i = 0 or handle it with a special case
+@for $i from 1 through 10 {
+  .h-#{$i * 100}px {
+    height: #{$i * 100}px;
+  }
+}
+
+// Special case for h-0 if needed
+.h-0 {
+  height: 0;
+}
+
+.h-100vh,
+[h-100vh] {
+  min-height: 100vh;
+}
+// ==================== Widths =====================
+// Exclude $i = 0 or handle it with a special case
+// @for $i from 1 through 10 {
+//   [w-#{$i * 10}],
+//   .w-#{$i * 10} {
+//     width: #{$i * 10}% !important;
+//   }
+// }
+
+// // Special case for w-0 if needed
+// .w-0 {
+//   width: 0 !important;
+// }
+
+
+
+@media (max-width: 767px) {
+  .w-sm-100 {
+    width: 100% !important;
+  }
+}

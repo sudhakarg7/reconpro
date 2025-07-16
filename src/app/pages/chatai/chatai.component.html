@@ -1,0 +1,58 @@
+
+<div class="upload-section">
+  <input
+    type="file"
+    (change)="onFileSelected($event)"
+    accept="application/pdf"
+  />
+</div>
+<div class="container">
+  <!-- File Upload Button -->
+
+  <!-- PDF Viewer -->
+  <div *ngIf="pdfSrc" class="pdf-viewer">
+    <ngx-extended-pdf-viewer [src]="pdfSrc" [height]="'90vh'">
+    </ngx-extended-pdf-viewer>
+  </div>
+
+  <!-- Chat Window -->
+  <div *ngIf="pdfSrc" class="chat-window">
+    <div class="chat-container">
+      <div
+        *ngFor="let message of messages"
+        class="chat-message"
+        [ngClass]="{
+          'user-message': message.isUser,
+          'api-response': !message.isUser
+        }"
+      >
+        {{ message.content }}
+       
+      </div>
+
+      <p [innerHTML]="streamData"></p>
+
+      <input
+        [(ngModel)]="newMessage"
+        (keydown.enter)="sendMessage()"
+        placeholder="Type a message..."
+      />
+    </div>
+  </div>
+</div>
+
+<p [innerHTML]="respTxt"></p>
+
+<!-- <div *ngIf="loading">Loading...</div>
+
+<div *ngIf="!loading">
+  <p [innerHTML]="streamData"></p>
+</div> -->
+
+
+<!-- <div *ngIf="loading">Loading...</div>
+<div *ngIf="!loading">
+  <div *ngFor="let item of streamData">
+    {{ item | json }}
+  </div>
+</div> -->

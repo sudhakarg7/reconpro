@@ -1,0 +1,164 @@
+<app-page-layout>
+    <div class="container px-4">
+      <div class="row">
+        <div class="col-md-12 p-4">
+          <h4>GL Recon Configuration</h4>
+          <div class="card mb-5">
+            <div class="card-body">
+              <form [formGroup]="glReconConfigForm" (ngSubmit)="onSubmit()">
+                <div class="form-group row">
+                  <!-- Division Field -->
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label for="division" class="col-sm-12 col-form-label">Division:</label>
+                      <div class="col-sm-12">
+                        <select
+                          id="division"
+                          class="form-control"
+                          formControlName="division"
+                        >
+                          <option value="">Select Division</option>
+                          <option value="pepsico1">PepsiCo Division 1</option>
+                          <option value="pepsico2">PepsiCo Division 2</option>
+                          <option value="pepsico3">PepsiCo Division 3</option>
+                        </select>
+                        <div
+                          class="text-danger small"
+                          *ngIf="glReconConfigForm.controls['division']?.errors?.['required'] && glReconConfigForm.controls['division'].touched"
+                        >
+                          Division is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- Account Analysis Field (Multi Select) -->
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label for="accountAnalysis" class="col-sm-12 col-form-label">Account Analysis:</label>
+                      <div class="col-sm-12">
+                        <ng-select
+                          [items]="bankTransactions"
+                          bindLabel="name"
+                          formControlName="accountAnalysis"
+                          [multiple]="true"
+                          placeholder="Select Bank Transactions"
+                          class="form-control"
+                        ></ng-select>
+                        <div
+                          class="text-danger small"
+                          *ngIf="glReconConfigForm.controls['accountAnalysis']?.errors?.['required'] && glReconConfigForm.controls['accountAnalysis'].touched"
+                        >
+                          Account Analysis is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Section 1 Field -->
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label for="section1" class="col-sm-12 col-form-label">Section 1:</label>
+                      <div class="col-sm-12">
+                        <input
+                          id="section1"
+                          class="form-control"
+                          type="text"
+                          formControlName="section1"
+                        />
+                        <div
+                          class="text-danger small"
+                          *ngIf="glReconConfigForm.controls['section1']?.errors?.['required'] && glReconConfigForm.controls['section1'].touched"
+                        >
+                          Section 1 is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- Section 2 Field -->
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label for="section2" class="col-sm-12 col-form-label">Section 2:</label>
+                      <div class="col-sm-12">
+                        <input
+                          id="section2"
+                          class="form-control"
+                          type="text"
+                          formControlName="section2"
+                        />
+                        <div
+                          class="text-danger small"
+                          *ngIf="glReconConfigForm.controls['section2']?.errors?.['required'] && glReconConfigForm.controls['section2'].touched"
+                        >
+                          Section 2 is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- Section 3 Field -->
+                  <div class="col-md-4">
+                    <div class="form-group row">
+                      <label for="section3" class="col-sm-12 col-form-label">Section 3:</label>
+                      <div class="col-sm-12">
+                        <input
+                          id="section3"
+                          class="form-control"
+                          type="text"
+                          formControlName="section3"
+                        />
+                        <div
+                          class="text-danger small"
+                          *ngIf="glReconConfigForm.controls['section3']?.errors?.['required'] && glReconConfigForm.controls['section3'].touched"
+                        >
+                          Section 3 is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Account Section Field -->
+                <div class="form-group row">
+                  <div class="col-md-6">
+                    <div class="form-group row">
+                      <label for="accountSection" class="col-sm-12 col-form-label">Account Section:</label>
+                      <div class="col-sm-12">
+                        <input
+                          id="accountSection"
+                          class="form-control"
+                          type="text"
+                          formControlName="accountSection"
+                        />
+                        <div
+                          class="text-danger small"
+                          *ngIf="glReconConfigForm.controls['accountSection']?.errors?.['required'] && glReconConfigForm.controls['accountSection'].touched"
+                        >
+                          Account Section is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Submit Button -->
+                <div class="col-md-12 text-right">
+                  <button
+                    type="submit"
+                    [disabled]="glReconConfigForm.invalid"
+                    class="btn btn-primary btn-lg"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-page-layout>
+  
