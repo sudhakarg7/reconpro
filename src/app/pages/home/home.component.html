@@ -16,9 +16,19 @@
       <div class="col-lg-6 col-md-12">
         <div class="card m-2">
           <div class="card-body">
-            <div class="card-title h6"><span class="icon material-icons" aria-hidden="true">bar_chart</span>Account Analysis Chart View</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="card-title h6 mb-0">Account Analysis Chart View</div>
+              <div style="position:relative; display:inline-block; min-width:140px; max-width:180px; width:100%;">
+                <select class="form-control form-control-sm pr-4" [(ngModel)]="barChartFilter" (change)="onBarChartFilterChange(barChartFilter)" style="font-size:0.75rem; min-width:140px; max-width:180px; width:100%; appearance: none;">
+                  <option value="monthly">Monthly</option>
+                  <option value="quarterly">Quarterly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+                <i class="fa fa-angle-down" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:1rem; color:#888;"></i>
+              </div>
+            </div>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-12" style="height: 270px; display: flex; align-items: center;">
                 <canvas
                   baseChart
                   [data]="barChartData"
@@ -28,6 +38,7 @@
                   (chartClick)="chartClicked($event)"
                   aria-label="Account Analysis Bar Chart"
                   role="img"
+                  style="height: 100% !important; width: 100%;"
                 >
                 </canvas>
               </div>
@@ -38,20 +49,36 @@
       <div class="col-lg-6 col-md-12 pl-0">
         <div class="card m-2">
           <div class="card-body">
-            <div class="card-title h6"><span class="icon material-icons" aria-hidden="true">pie_chart</span>GL Summary</div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="card-title h6 mb-0">GL Summary</div>
+              <div style="position:relative; display:inline-block; min-width:140px; max-width:180px; width:100%;">
+                <select class="form-control form-control-sm pr-4" [(ngModel)]="glSummaryFilter" (change)="onGlSummaryFilterChange(glSummaryFilter)" style="font-size:0.75rem; min-width:140px; max-width:180px; width:100%; appearance: none;">
+                  <option value="monthly">Monthly</option>
+                  <option value="quarterly">Quarterly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
+                <i class="fa fa-angle-down" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:1rem; color:#888;"></i>
+              </div>
+            </div>
             <div class="row">
-              <div class="col-md-12">
-                <div style="display: block;">
+              <div class="col-md-12" style="height: 270px; display: flex; align-items: center;">
+                <div style="display: block; width: 100%; height: 100%;">
                   <canvas baseChart
                           [data]="doughnutChartData"
                           [options]="doughnutChartOptions"
                           [type]="doughnutChartType"
                           aria-label="GL Summary Doughnut Chart"
-                          role="img">
+                          role="img"
+                          style="height: 100% !important; width: 100%;"
+                  >
                   </canvas>
                 </div>
-                
               </div>
+            </div>
+            <div class="w-100 d-flex justify-content-end">
+              <small class="text-muted" *ngIf="glSummaryFilter === 'monthly'">Showing: June 2025</small>
+              <small class="text-muted" *ngIf="glSummaryFilter === 'quarterly'">Showing: Q2 2025</small>
+              <small class="text-muted" *ngIf="glSummaryFilter === 'yearly'">Showing: 2025</small>
             </div>
           </div>
         </div>
@@ -60,10 +87,10 @@
       <div class="col-lg-12 col-md-12">
         <div class="card m-2">
           <div class="card-body">
-            <div class="card-title h6"><span class="icon material-icons" aria-hidden="true">table_chart</span>Account Analysis</div>
+            <div class="card-title h6">Account Analysis</div>
             <div class="row">
               <div class="col-md-12 small">
-                <div class="table-responsive" role="region" aria-label="Backup Table Data">
+                <div class="table-responsive" role="region" aria-label="Backup Table Data" style="overflow-x: auto;">
                   <table class="table">
                     <thead class="thead-light">
                       <tr>
@@ -73,37 +100,63 @@
                         <th scope="col">Backup Table 1</th>
                         <th scope="col">Backup Table 2</th>
                         <th scope="col">Backup Table 3</th>
-                        <th scope="col">Backup Table 3 <small>(Duplicate Column)</small></th>
                         <th scope="col">Backup Table 4</th>
+                        <th scope="col">Backup Table 5</th>
                         <th scope="col">Clear Status</th>
                         <th scope="col">Out Status</th>
+                        <th scope="col">Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let row of backupTableData">
+                      <tr *ngFor="let row of pagedBackupTableData">
                         <td>{{ row.year }}</td>
                         <td>{{ row.month }}</td>
-                        <td>{{ row.inputData }}</td>
-                        <td>{{ row.backupTable1 }}</td>
-                        <td>{{ row.backupTable2 }}</td>
+                        <td>
+                          <a href="#" (click)="openInputDataPopup(row, $event)" style="cursor:pointer; text-decoration:underline; color:#1976d2;">{{ row.inputData }}</a>
+                        </td>
+                        <td>
+                          <a href="#" (click)="openBackupTableModal('backupTable1', $event)" style="cursor:pointer; text-decoration:underline; color:#1976d2;">{{ row.backupTable1 }}</a>
+                        </td>
+                        <td>
+                          <a href="#" (click)="openBackupTableModal('backupTable2', $event)" style="cursor:pointer; text-decoration:underline; color:#1976d2;">{{ row.backupTable2 }}</a>
+                        </td>
                         <td>{{ row.backupTable3 }}</td>
                         <td>{{ row.backupTable3Duplicate }}</td>
                         <td>{{ row.backupTable4 }}</td>
                         <td>
                           {{ row.clearStatus.value }}
                           <button class="btn btn-link btn-sm p-0 ml-2" (click)="downloadStatusExcel(row.clearStatus.file)" aria-label="Download Clear Status Excel">
+                            <img src="assets/img/xls.png" alt="Download Excel" style="height:18px; width:auto; margin-right:4px;" />
                             (download Excel)
                           </button>
                         </td>
                         <td>
                           {{ row.outStatus.value }}
                           <button class="btn btn-link btn-sm p-0 ml-2" (click)="downloadStatusExcel(row.outStatus.file)" aria-label="Download Out Status Excel">
+                            <img src="assets/img/xls.png" alt="Download Excel" style="height:18px; width:auto; margin-right:4px;" />
                             (download Excel)
                           </button>
+                        </td>
+                        <td>
+                          <input type="checkbox" [checked]="row.status" (change)="toggleStatus(row)" aria-label="Status Checkbox" />
+                          <span class="ml-2">{{ row.status ? 'Clear' : 'Unclear' }}</span>
                         </td>
                       </tr>
                     </tbody>
                   </table>
+                  <!-- Pagination Controls -->
+                  <div class="d-flex justify-content-between align-items-center mt-2" style="font-size:0.8rem;">
+                    <div>
+                      Page {{ backupTablePage + 1 }} of {{ backupTableTotalPages }}
+                    </div>
+                    <div>
+                      <button class="btn btn-light btn-sm mr-1" [disabled]="backupTablePage === 0" (click)="backupTablePrevPage()">Prev</button>
+                      <ng-container *ngFor="let page of [].constructor(backupTableTotalPages); let i = index">
+                        <button class="btn btn-sm mx-1" [ngClass]="{'btn-primary': backupTablePage === i, 'btn-light': backupTablePage !== i}" (click)="backupTableGoToPage(i)">{{ i + 1 }}</button>
+                      </ng-container>
+                      <button class="btn btn-light btn-sm" [disabled]="backupTablePage >= backupTableTotalPages - 1" (click)="backupTableNextPage()">Next</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -115,3 +168,149 @@
     </div>
   </div>
 </app-page-layout>
+
+<!-- Input Data Popup Modal -->
+<div class="modal fade show" tabindex="-1" role="dialog" *ngIf="showInputDataModal" style="display:block; background:rgba(0,0,0,0.3);">
+  <div class="modal-dialog modal-xl" role="document" style="min-height: 80vh; max-width: 98vw; width: 98vw;">
+    <div class="modal-content" style="min-height: 70vh;">
+      <div class="modal-header">
+        <h5 class="modal-title">Input Data Details</h5>
+        <!-- <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="downloadInputDataExcel()">
+          <i class="fa fa-download"></i> Download Excel
+        </button> -->
+        <button type="button" class="close" aria-label="Close" (click)="closeInputDataPopup()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-2">
+        <div *ngIf="inputDataTable && inputDataTable.length > 0; else noData">
+          <div class="table-responsive" style="max-height: 350px; overflow-y: auto; overflow-x: auto;">
+            <table class="table table-bordered table-sm mb-2" style="font-size: 0.78rem; line-height: 1.1;">
+              <thead>
+                <tr>
+                  <th>posted_dt</th>
+                  <th>value_dt</th>
+                  <th>description</th>
+                  <th>debit</th>
+                  <th>credit</th>
+                  <th>net_amnt</th>
+                  <th>lbx_validation</th>
+                  <th>lbx_rpt_rcv_dt</th>
+                  <th>status</th>
+                  <th>luk_tbl</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of pagedInputDataTable">
+                  <td>{{ item.posted_dt }}</td>
+                  <td>{{ item.value_dt }}</td>
+                  <td>{{ item.description }}</td>
+                  <td>{{ item.debit }}</td>
+                  <td>{{ item.credit }}</td>
+                  <td>{{ item.net_amnt }}</td>
+                  <td>{{ item.lbx_validation }}</td>
+                  <td>{{ item.lbx_rpt_rcv_dt }}</td>
+                  <td>{{ item.status }}</td>
+                  <td>{{ item.luk_tbl }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination Controls -->
+          <div class="d-flex justify-content-between align-items-center mt-2" style="font-size:0.8rem;">
+            <div>
+              Page {{ inputDataPage + 1 }} of {{ inputDataTotalPages }}
+            </div>
+            <div>
+              <button class="btn btn-light btn-sm mr-1" [disabled]="inputDataPage === 0" (click)="inputDataPrevPage()">Prev</button>
+              <ng-container *ngFor="let page of [].constructor(inputDataTotalPages); let i = index">
+                <button class="btn btn-sm mx-1" [ngClass]="{'btn-primary': inputDataPage === i, 'btn-light': inputDataPage !== i}" (click)="inputDataGoToPage(i)">{{ i + 1 }}</button>
+              </ng-container>
+              <button class="btn btn-light btn-sm" [disabled]="inputDataPage >= inputDataTotalPages - 1" (click)="inputDataNextPage()">Next</button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noData>
+          <div class="text-center text-muted">No data available.</div>
+        </ng-template>
+      </div>
+      <div class="modal-footer d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="downloadInputDataExcel()">
+          <img src="assets/img/xls.png" alt="Download Excel" style="height:22px; width:auto; margin-right:8px;" />
+          Download Excel
+        </button>
+        <!-- <button type="button" class="btn btn-secondary" (click)="closeInputDataPopup()">Close</button> -->
+        <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="closeInputDataPopup()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Backup Table Modal Popup -->
+<div class="modal fade show" tabindex="-1" role="dialog" *ngIf="showBackupTableModal" style="display:block; background:rgba(0,0,0,0.3);">
+  <div class="modal-dialog modal-xl" role="document" style="min-height: 80vh; max-width: 98vw; width: 98vw;">
+    <div class="modal-content" style="min-height: 70vh;">
+      <div class="modal-header">
+        <h5 class="modal-title">Backup Table Details</h5>
+        <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="downloadBackupTableExcel()">
+          <img src="assets/img/xls.png" alt="Download Excel" style="height:22px; width:auto; margin-right:8px;" />
+          Download Excel
+        </button>
+        <button type="button" class="close" aria-label="Close" (click)="closeBackupTableModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-2">
+        <div *ngIf="backupTableModalData && backupTableModalData.length > 0; else noBackupTableData">
+          <div class="table-responsive" style="max-height: 350px; overflow-y: auto; overflow-x: auto;">
+            <table class="table table-bordered table-sm mb-2" style="font-size: 0.78rem; line-height: 1.1;">
+              <thead>
+                <tr>
+                  <th>Details</th>
+                  <th>Pay Date</th>
+                  <th>Run ID</th>
+                  <th>Amount</th>
+                  <th>Subtotal</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of pagedBackupTableModalData">
+                  <td>{{ item.Details }}</td>
+                  <td>{{ item['Pay Date'] }}</td>
+                  <td>{{ item['Run ID'] }}</td>
+                  <td>{{ item.Amount }}</td>
+                  <td>{{ item.Subtotal }}</td>
+                  <td>{{ item.Status }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination Controls -->
+          <div class="d-flex justify-content-between align-items-center mt-2" style="font-size:0.8rem;">
+            <div>
+              Page {{ backupTableModalPage + 1 }} of {{ backupTableModalTotalPages }}
+            </div>
+            <div>
+              <button class="btn btn-light btn-sm mr-1" [disabled]="backupTableModalPage === 0" (click)="backupTableModalPrevPage()">Prev</button>
+              <ng-container *ngFor="let page of [].constructor(backupTableModalTotalPages); let i = index">
+                <button class="btn btn-sm mx-1" [ngClass]="{'btn-primary': backupTableModalPage === i, 'btn-light': backupTableModalPage !== i}" (click)="backupTableModalGoToPage(i)">{{ i + 1 }}</button>
+              </ng-container>
+              <button class="btn btn-light btn-sm" [disabled]="backupTableModalPage >= backupTableModalTotalPages - 1" (click)="backupTableModalNextPage()">Next</button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noBackupTableData>
+          <div class="text-center text-muted">No data available.</div>
+        </ng-template>
+      </div>
+      <div class="modal-footer d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="downloadBackupTableExcel()">
+          <img src="assets/img/xls.png" alt="Download Excel" style="height:22px; width:auto; margin-right:8px;" />
+          Download Excel
+        </button>
+        <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="closeBackupTableModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

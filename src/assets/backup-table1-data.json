@@ -1,0 +1,14 @@
+[
+  { "Details": "BMRRSP", "Pay Date": "4/26/2024", "Run ID": "SR-2537", "Amount": "78,568.52", "Subtotal": "78,568.52", "Status": "P" },
+  { "Details": "BMO -Checks", "Pay Date": "4/26/2024", "Run ID": "SR-2537", "Amount": "21,186.73", "Subtotal": "—", "Status": "P" },
+  { "Details": "BMO -Advices", "Pay Date": "4/26/2024", "Run ID": "SR-2537", "Amount": "459,623.67", "Subtotal": "—", "Status": "P" },
+  { "Details": "ADD", "Pay Date": "4/26/2024", "Run ID": "SR-2537", "Amount": "-4,320.83", "Subtotal": "—", "Status": "P" },
+  { "Details": "NPREIS", "Pay Date": "4/26/2024", "Run ID": "SR-2537", "Amount": "-21,186.73", "Subtotal": "455,302.84", "Status": "P" },
+  { "Details": "BMO -Checks", "Pay Date": "5/1/2024", "Run ID": "SR-2543", "Amount": "6,180.33", "Subtotal": "—", "Status": "P" },
+  { "Details": "BMO -Advices", "Pay Date": "5/1/2024", "Run ID": "SR-2543", "Amount": "4,131.72", "Subtotal": "—", "Status": "C" },
+  { "Details": "NPREIS", "Pay Date": "5/1/2024", "Run ID": "SR-2543", "Amount": "-6,901.82", "Subtotal": "2,990.44", "Status": "P" },
+  { "Details": "BMRRSP", "Pay Date": "5/1/2024", "Run ID": "SR-2543", "Amount": "-2,102.80", "Subtotal": "-2,102.80", "Status": "P" },
+  { "Details": "ADD", "Pay Date": "5/1/2024", "Run ID": "SR-2543", "Amount": "-419.79", "Subtotal": "—", "Status": "C" },
+  { "Details": "BMO -Advices", "Pay Date": "5/2/2024", "Run ID": "SR-2545", "Amount": "8,070.10", "Subtotal": "—", "Status": "C" },
+  { "Details": "BMRRSP", "Pay Date": "5/2/2024", "Run ID": "SR-2545", "Amount": "-2,102.80", "Subtotal": "-2,102.80", "Status": "P" }
+] 

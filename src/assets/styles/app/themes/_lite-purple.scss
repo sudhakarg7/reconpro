@@ -65,3 +65,9 @@ $theme-colors: (
   gray-400: $gray-400,
   dark: $dark
 ) !default;
+
+:root {
+  --bs-success-flat: #6ee7b7;  // Soft green
+  --bs-danger-flat: #f87171;   // Soft red
+  --bs-warning-flat: #fde68a;  // Soft yellow
+}

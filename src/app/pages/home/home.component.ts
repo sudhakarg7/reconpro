@@ -1,5 +1,5 @@
 // Angular modules
-import { NgIf, NgFor }                 from '@angular/common';
+import { NgIf, NgFor, NgClass }                 from '@angular/common';
 import { Component,ViewChild  }            from '@angular/core';
 import { OnInit }               from '@angular/core';
 
@@ -18,6 +18,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { Chart } from 'chart.js';
 import { CategoryScale, LinearScale, BarController, BarElement, registerables  } from 'chart.js';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 Chart.register(CategoryScale, LinearScale, BarController, BarElement);
 
@@ -27,7 +28,7 @@ Chart.register(CategoryScale, LinearScale, BarController, BarElement);
   templateUrl : './home.component.html',
   styleUrls   : ['./home.component.scss'],
   standalone  : true,
-  imports     : [PageLayoutComponent, NgIf, NgFor, ProgressBarComponent, BaseChartDirective ]
+  imports     : [PageLayoutComponent, NgIf, NgFor, NgClass, ProgressBarComponent, BaseChartDirective, FormsModule ]
 })
 export class HomeComponent implements OnInit
 {
@@ -50,6 +51,9 @@ export class HomeComponent implements OnInit
     {
       this.storeService.isLoading.set(false);
     }, 2000);
+    this.updatePagedBackupTableData();
+    this.onGlSummaryFilterChange(this.glSummaryFilter);
+    this.onBarChartFilterChange(this.barChartFilter);
   }
 
   // -------------------------------------------------------------------------------
@@ -64,6 +68,12 @@ export class HomeComponent implements OnInit
   // NOTE Helpers ------------------------------------------------------------------
   // -------------------------------------------------------------------------------
 
+  private getThemeColor(varName: string, fallback: string): string {
+    const root = document.documentElement;
+    const value = getComputedStyle(root).getPropertyValue(varName);
+    return value ? value.trim() : fallback;
+  }
+
   // -------------------------------------------------------------------------------
   // NOTE Requests -----------------------------------------------------------------
   // -------------------------------------------------------------------------------
@@ -77,33 +87,69 @@ export class HomeComponent implements OnInit
     responsive: true,
     maintainAspectRatio: false,
     scales: {
-      x: {},
+      x: {
+        grid: { display: false },
+        ticks: { color: '#888', font: { size: 13, family: 'Inter, Roboto, Segoe UI, Arial, sans-serif' } },
+      },
       y: {
-        min: -6000000, // Adjust to accommodate negative values
+        grid: { color: '#e3e3e3' },
+        ticks: { color: '#888', font: { size: 13, family: 'Inter, Roboto, Segoe UI, Arial, sans-serif' }, stepSize: 500 },
+        beginAtZero: true,
       },
     },
     plugins: {
       legend: {
         display: true,
+        position: 'top',
+        align: 'start',
+        labels: {
+          boxWidth: 16,
+          boxHeight: 16,
+          padding: 18,
+          font: { size: 14, family: 'Inter, Roboto, Segoe UI, Arial, sans-serif' },
+          color: '#222',
+        },
       },
-      // datalabels: {
-      //   anchor: 'end',
-      //   align: 'end',
-      // },
+      title: {
+        display: false,
+      },
+      tooltip: {
+        enabled: true,
+        backgroundColor: '#fff',
+        titleColor: '#1976d2',
+        bodyColor: '#222',
+        borderColor: '#e3e3e3',
+        borderWidth: 1,
+        titleFont: { size: 14, family: 'Inter, Roboto, Segoe UI, Arial, sans-serif' },
+        bodyFont: { size: 13, family: 'Inter, Roboto, Segoe UI, Arial, sans-serif' },
+      },
+    },
+    backgroundColor: '#fff',
+    elements: {
+      bar: {
+        borderRadius: 4,
+        borderSkipped: false
+      },
     },
   };
   public barChartType = 'bar' as const;
 
   // Updated to reflect your payroll data
   public barChartData: ChartData<'bar'> = {
-    labels: ['Payroll Wk1', 'Payroll Wk2', 'Payroll Wk3', 'Payroll Wk4', 'Total General Ledger'],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
-      { data: [0, 0, 0, 0, -19571.45], label: 'Opening Balance' },
-      { data: [-563.81, -2720707.75, -1311.01, -2618335.23, -5340917.80], label: 'Payroll Activity' },
-      { data: [30470.29, 2580225.61, 25022.90, 2503856.08, 5139574.88], label: 'Funding' },
-      { data: [0, 0, 34644.64, 35464.39, 70109.03], label: 'Mismapping Reclass' },
-      { data: [0, 0, 0, 0, 68087.18], label: 'GL Adj/JE\'s' },
-      { data: [-29909.89, 103907.34, -23711.48, 50087.93, 0], label: 'Interco With OTHR Divisions' }
+      {
+        data: [2346, 2566, 1346, 2346, 2346, 2346],
+        label: 'Clear Status',
+        backgroundColor: this.getThemeColor('--bs-success-flat', '#6ee7b7'),
+        maxBarThickness: 32
+      },
+      {
+        data: [120, 40, 100, 50, 210, 60],
+        label: 'Out Status',
+        backgroundColor: this.getThemeColor('--bs-danger-flat', '#f87171'),
+        maxBarThickness: 32
+      }
     ],
   };
 
@@ -160,7 +206,83 @@ export class HomeComponent implements OnInit
 
   public doughnutChartType = 'doughnut' as const;
 
+  // GL Summary filter
+  public glSummaryFilter: 'monthly' | 'quarterly' | 'yearly' = 'monthly';
 
+  // Example data for each filter type
+  private glSummaryData = {
+    monthly: {
+      labels: ['Payroll', 'Funding', 'Total'],
+      data: [5340917.80, 5139574.88, -826718.16]
+    },
+    quarterly: {
+      labels: ['Payroll Q1', 'Funding Q1', 'Total Q1'],
+      data: [12000000, 11000000, 1000000]
+    },
+    yearly: {
+      labels: ['Payroll Y', 'Funding Y', 'Total Y'],
+      data: [48000000, 45000000, 3000000]
+    }
+  };
+
+  onGlSummaryFilterChange(filter: 'monthly' | 'quarterly' | 'yearly') {
+    this.glSummaryFilter = filter;
+    const selected = this.glSummaryData[filter];
+    this.doughnutChartData = {
+      labels: selected.labels,
+      datasets: [
+        {
+          data: selected.data,
+          backgroundColor: ['#63f3be', '#49a2eb', '#FFCE56'],
+          hoverBackgroundColor: ['#63f3be', '#49a2eb', '#FFCE56']
+        }
+      ]
+    };
+  }
+
+  // Bar Chart filter
+  public barChartFilter: 'monthly' | 'quarterly' | 'yearly' = 'monthly';
+
+  // Example data for each filter type
+  private barChartDataSets = {
+    monthly: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      clear: [2346, 2566, 1346, 2346, 2346, 2346],
+      out: [120, 40, 100, 50, 210, 60]
+    },
+    quarterly: {
+      labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+      clear: [7000, 8000, 7500, 8200],
+      out: [260, 180, 200, 220]
+    },
+    yearly: {
+      labels: ['2023', '2024', '2025'],
+      clear: [32000, 34000, 36000],
+      out: [900, 850, 950]
+    }
+  };
+
+  onBarChartFilterChange(filter: 'monthly' | 'quarterly' | 'yearly') {
+    this.barChartFilter = filter;
+    const selected = this.barChartDataSets[filter];
+    this.barChartData = {
+      labels: selected.labels,
+      datasets: [
+        {
+          data: selected.clear,
+          label: 'Clear Status',
+          backgroundColor: this.getThemeColor('--bs-success-flat', '#6ee7b7'),
+          maxBarThickness: 32
+        },
+        {
+          data: selected.out,
+          label: 'Out Status',
+          backgroundColor: this.getThemeColor('--bs-danger-flat', '#f87171'),
+          maxBarThickness: 32
+        }
+      ]
+    };
+  }
 
   downloadFile() {
     const fileUrl = 'assets/Eproceedings.csv'; // Replace with your actual file URL
@@ -202,7 +324,8 @@ export class HomeComponent implements OnInit
       backupTable3Duplicate: 'Ded Value H',
       backupTable4: 'Reverse Net I',
       clearStatus: { value: '50/200', file: 'clear-may.xlsx' },
-      outStatus: { value: '150/200', file: 'out-may.xlsx' }
+      outStatus: { value: '150/200', file: 'out-may.xlsx' },
+      status: false
     },
     {
       year: '2025',
@@ -214,7 +337,8 @@ export class HomeComponent implements OnInit
       backupTable3Duplicate: 'Ded Value H',
       backupTable4: 'Reverse Net I',
       clearStatus: { value: '50/200', file: 'clear-april.xlsx' },
-      outStatus: { value: '150/200', file: 'out-april.xlsx' }
+      outStatus: { value: '150/200', file: 'out-april.xlsx' },
+      status: false
     },
     {
       year: '2025',
@@ -226,9 +350,15 @@ export class HomeComponent implements OnInit
       backupTable3Duplicate: 'Ded Value H',
       backupTable4: 'Reverse Net I',
       clearStatus: { value: '50/200', file: 'clear-march.xlsx' },
-      outStatus: { value: '150/200', file: 'out-march.xlsx' }
+      outStatus: { value: '150/200', file: 'out-march.xlsx' },
+      status: false
     }
   ];
+
+  // Toggle status for a row
+  public toggleStatus(row: any): void {
+    row.status = !row.status;
+  }
 
   // Download Excel for a specific row/column
   public downloadStatusExcel(fileName: string): void {
@@ -236,6 +366,204 @@ export class HomeComponent implements OnInit
     // For demo, just trigger download from assets (ensure files exist or handle 404)
     const fileUrl = `assets/${fileName}`;
     this.downloadExcelFile(fileUrl);
+  }
+
+  public showInputDataModal = false;
+  public inputDataTable: any[] = [];
+  public pagedInputDataTable: any[] = [];
+  public inputDataPage = 0;
+  public inputDataPageSize = 5;
+  public inputDataTotalPages = 1;
+  private inputDataJsonUrl = 'assets/input-data.json'; // Path to your JSON file
+
+  openInputDataPopup(row: any, event?: MouseEvent): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.showInputDataModal = true;
+    this.inputDataPage = 0;
+    this.inputDataTable = [];
+    this.pagedInputDataTable = [];
+    // Optionally, you can use row to determine which JSON to load
+    this.http.get<any[]>(this.inputDataJsonUrl).subscribe(
+      data => {
+        this.inputDataTable = data;
+        this.inputDataTotalPages = Math.ceil(this.inputDataTable.length / this.inputDataPageSize);
+        this.updatePagedInputDataTable();
+      },
+      error => {
+        this.inputDataTable = [];
+        this.inputDataTotalPages = 1;
+        this.updatePagedInputDataTable();
+      }
+    );
+  }
+
+  updatePagedInputDataTable(): void {
+    const start = this.inputDataPage * this.inputDataPageSize;
+    const end = start + this.inputDataPageSize;
+    this.pagedInputDataTable = this.inputDataTable.slice(start, end);
+  }
+
+  inputDataPrevPage(): void {
+    if (this.inputDataPage > 0) {
+      this.inputDataPage--;
+      this.updatePagedInputDataTable();
+    }
+  }
+
+  inputDataNextPage(): void {
+    if (this.inputDataPage < this.inputDataTotalPages - 1) {
+      this.inputDataPage++;
+      this.updatePagedInputDataTable();
+    }
+  }
+
+  inputDataGoToPage(page: number): void {
+    if (page >= 0 && page < this.inputDataTotalPages) {
+      this.inputDataPage = page;
+      this.updatePagedInputDataTable();
+    }
+  }
+
+  downloadInputDataExcel(): void {
+    // Simple CSV export for demo; for real Excel, use a library like xlsx
+    if (!this.inputDataTable || this.inputDataTable.length === 0) return;
+    const header = Object.keys(this.inputDataTable[0]);
+    const csvRows = [header.join(",")];
+    for (const row of this.inputDataTable) {
+      csvRows.push(header.map(key => JSON.stringify(row[key] ?? "")).join(","));
+    }
+    const csvString = csvRows.join("\n");
+    const blob = new Blob([csvString], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'input-data.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  closeInputDataPopup(): void {
+    this.showInputDataModal = false;
+    this.inputDataTable = [];
+  }
+
+  public showBackupTableModal = false;
+  public backupTableModalData: any[] = [];
+  public pagedBackupTableModalData: any[] = [];
+  public backupTableModalPage = 0;
+  public backupTableModalPageSize = 5;
+  public backupTableModalTotalPages = 1;
+  private backupTableModalJsonUrl = 'assets/backup-table1-data.json';
+
+  openBackupTableModal(type: 'backupTable1' | 'backupTable2', event?: MouseEvent): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.showBackupTableModal = true;
+    this.backupTableModalPage = 0;
+    this.backupTableModalData = [];
+    this.pagedBackupTableModalData = [];
+    // For now, both types use the same JSON. You can switch based on type if needed.
+    this.http.get<any[]>(this.backupTableModalJsonUrl).subscribe(
+      data => {
+        this.backupTableModalData = data;
+        this.backupTableModalTotalPages = Math.ceil(this.backupTableModalData.length / this.backupTableModalPageSize);
+        this.updatePagedBackupTableModalData();
+      },
+      error => {
+        this.backupTableModalData = [];
+        this.backupTableModalTotalPages = 1;
+        this.updatePagedBackupTableModalData();
+      }
+    );
+  }
+
+  closeBackupTableModal(): void {
+    this.showBackupTableModal = false;
+    this.backupTableModalData = [];
+    this.pagedBackupTableModalData = [];
+  }
+
+  updatePagedBackupTableModalData(): void {
+    const start = this.backupTableModalPage * this.backupTableModalPageSize;
+    const end = start + this.backupTableModalPageSize;
+    this.pagedBackupTableModalData = this.backupTableModalData.slice(start, end);
+  }
+
+  backupTableModalPrevPage(): void {
+    if (this.backupTableModalPage > 0) {
+      this.backupTableModalPage--;
+      this.updatePagedBackupTableModalData();
+    }
+  }
+
+  backupTableModalNextPage(): void {
+    if (this.backupTableModalPage < this.backupTableModalTotalPages - 1) {
+      this.backupTableModalPage++;
+      this.updatePagedBackupTableModalData();
+    }
+  }
+
+  backupTableModalGoToPage(page: number): void {
+    if (page >= 0 && page < this.backupTableModalTotalPages) {
+      this.backupTableModalPage = page;
+      this.updatePagedBackupTableModalData();
+    }
+  }
+
+  downloadBackupTableExcel(): void {
+    if (!this.backupTableModalData || this.backupTableModalData.length === 0) return;
+    const header = Object.keys(this.backupTableModalData[0]);
+    const csvRows = [header.join(",")];
+    for (const row of this.backupTableModalData) {
+      csvRows.push(header.map(key => JSON.stringify(row[key] ?? "")).join(","));
+    }
+    const csvString = csvRows.join("\n");
+    const blob = new Blob([csvString], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'backup-table-data.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  // Pagination for Account Analysis Table
+  public backupTablePage = 0;
+  public backupTablePageSize = 5;
+  public backupTableTotalPages = 1;
+  public pagedBackupTableData: any[] = [];
+
+  updatePagedBackupTableData(): void {
+    this.backupTableTotalPages = Math.ceil(this.backupTableData.length / this.backupTablePageSize);
+    const start = this.backupTablePage * this.backupTablePageSize;
+    const end = start + this.backupTablePageSize;
+    this.pagedBackupTableData = this.backupTableData.slice(start, end);
+  }
+
+  backupTablePrevPage(): void {
+    if (this.backupTablePage > 0) {
+      this.backupTablePage--;
+      this.updatePagedBackupTableData();
+    }
+  }
+
+  backupTableNextPage(): void {
+    if (this.backupTablePage < this.backupTableTotalPages - 1) {
+      this.backupTablePage++;
+      this.updatePagedBackupTableData();
+    }
+  }
+
+  backupTableGoToPage(page: number): void {
+    if (page >= 0 && page < this.backupTableTotalPages) {
+      this.backupTablePage = page;
+      this.updatePagedBackupTableData();
+    }
   }
 
 }

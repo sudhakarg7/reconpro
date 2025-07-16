@@ -1,0 +1,86 @@
+[
+  {
+    "posted_dt": "5/2/2024",
+    "value_dt": "5/1/2024",
+    "description": "Credit Memo , BR.0055 NETPAY",
+    "debit": null,
+    "credit": 4772.10,
+    "net_amnt": -4772.10,
+    "lbx_validation": null,
+    "lbx_rpt_rcv_dt": null,
+    "status": "P",
+    "luk_tbl": "NET_PAY_A"
+  },
+  {
+    "posted_dt": "5/1/2024",
+    "value_dt": "5/1/2024",
+    "description": "Cheque , NO.524153",
+    "debit": 1823.23,
+    "credit": null,
+    "net_amnt": 1823.23,
+    "lbx_validation": null,
+    "lbx_rpt_rcv_dt": null,
+    "status": "C",
+    "luk_tbl": "CHK_NET_PAY_REG_C"
+  },
+  {
+    "posted_dt": "5/1/2024",
+    "value_dt": "5/1/2024",
+    "description": "Cheque , NO.524006",
+    "debit": 429.95,
+    "credit": null,
+    "net_amnt": 429.95,
+    "lbx_validation": null,
+    "lbx_rpt_rcv_dt": null,
+    "status": "C",
+    "luk_tbl": "CHK_NET_PAY_REG_C"
+  },
+  {
+    "posted_dt": "5/1/2024",
+    "value_dt": "5/1/2024",
+    "description": "Cheque , NO.524043",
+    "debit": 1087.57,
+    "credit": null,
+    "net_amnt": 1087.57,
+    "lbx_validation": null,
+    "lbx_rpt_rcv_dt": null,
+    "status": "C",
+    "luk_tbl": "CHK_NET_PAY_REG_C"
+  },
+  {
+    "posted_dt": "5/1/2024",
+    "value_dt": "5/1/2024",
+    "description": "Cheque , NO.523572",
+    "debit": 2311.31,
+    "credit": null,
+    "net_amnt": 2311.31,
+    "lbx_validation": null,
+    "lbx_rpt_rcv_dt": null,
+    "status": "P",
+    "luk_tbl": "CHK_NET_PAY_REG_C"
+  },
+  {
+    "posted_dt": "5/1/2024",
+    "value_dt": "5/1/2024",
+    "description": "Cheque , NO.523742",
+    "debit": 2311.31,
+    "credit": null,
+    "net_amnt": 2311.31,
+    "lbx_validation": null,
+    "lbx_rpt_rcv_dt": null,
+    "status": "P",
+    "luk_tbl": "CHK_NET_PAY_REG_C"
+  },
+  {
+    "posted_dt": "5/1/2024",
+    "value_dt": "5/1/2024",
+    "description": "Cheque , NO.4564635",
+    "debit": 3513.59,
+    "credit": null,
+    "net_amnt": 3513.59,
+    "lbx_validation": null,
+    "lbx_rpt_rcv_dt": null,
+    "status": "P",
+    "luk_tbl": "CHK_NET_PAY_REG_C"
+  }
+] 
