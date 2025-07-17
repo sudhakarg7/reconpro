@@ -139,7 +139,7 @@ export class HomeComponent implements OnInit
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
       {
-        data: [2346, 2566, 1346, 2346, 2346, 2346],
+        data: [600, 700, 560, 350, 800, 480],
         label: 'Clear Status',
         backgroundColor: this.getThemeColor('--bs-success-flat', '#6ee7b7'),
         maxBarThickness: 32
@@ -194,10 +194,10 @@ export class HomeComponent implements OnInit
 
   // Doughnut chart data
   public doughnutChartData: ChartData<'doughnut'> = {
-    labels: ['Payroll', 'Funding', 'Total'],
+    labels: ['Outstanding ', 'Clear'],
     datasets: [
       {
-        data: [5340917.80, 5139574.88, -826718.16], // Example data
+        data: [5340917.80, -826718.16], // Example data
         backgroundColor: ['#63f3be', '#49a2eb', '#FFCE56'], // Different colors for segments
         hoverBackgroundColor: ['#63f3be', '#49a2eb', '#FFCE56']
       }
@@ -212,16 +212,16 @@ export class HomeComponent implements OnInit
   // Example data for each filter type
   private glSummaryData = {
     monthly: {
-      labels: ['Payroll', 'Funding', 'Total'],
-      data: [5340917.80, 5139574.88, -826718.16]
+      labels: ['Outstanding', 'Clear' ],
+      data: [5340917.80, 5139574.88 ]
     },
     quarterly: {
-      labels: ['Payroll Q1', 'Funding Q1', 'Total Q1'],
-      data: [12000000, 11000000, 1000000]
+      labels: ['Outstanding', 'Clear'],
+      data: [12000000, 11000000 ]
     },
     yearly: {
-      labels: ['Payroll Y', 'Funding Y', 'Total Y'],
-      data: [48000000, 45000000, 3000000]
+      labels: ['Outstanding', 'Clear'],
+      data: [48000000, 45000000]
     }
   };
 
@@ -247,17 +247,17 @@ export class HomeComponent implements OnInit
   private barChartDataSets = {
     monthly: {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-      clear: [2346, 2566, 1346, 2346, 2346, 2346],
+      clear: [490, 800, 550, 600, 450, 350],
       out: [120, 40, 100, 50, 210, 60]
     },
     quarterly: {
       labels: ['Q1', 'Q2', 'Q3', 'Q4'],
-      clear: [7000, 8000, 7500, 8200],
+      clear: [490, 800, 550, 600],
       out: [260, 180, 200, 220]
     },
     yearly: {
       labels: ['2023', '2024', '2025'],
-      clear: [32000, 34000, 36000],
+      clear: [4090, 5000, 5500],
       out: [900, 850, 950]
     }
   };
@@ -449,6 +449,13 @@ export class HomeComponent implements OnInit
     this.showInputDataModal = false;
     this.inputDataTable = [];
   }
+  public showClearStatusModal = false;
+  public ClearStatusModalData: any[] = [];
+  public pagedClearStatusModalData: any[] = [];
+  public ClearStatusModalPage = 0;
+  public ClearStatusModalPageSize = 5;
+  public ClearStatusModalTotalPages = 1;
+  private ClearStatusModalJsonUrl = 'assets/backup-table2-data.json';
 
   public showBackupTableModal = false;
   public backupTableModalData: any[] = [];
@@ -482,10 +489,40 @@ export class HomeComponent implements OnInit
     );
   }
 
+
+  openClearStatusModal(type: 'backupTable3', event?: MouseEvent): void {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.showClearStatusModal = true;
+    this.ClearStatusModalPage = 0;
+    this.ClearStatusModalData = [];
+    this.pagedClearStatusModalData = [];
+    // For now, both types use the same JSON. You can switch based on type if needed.
+    this.http.get<any[]>(this.ClearStatusModalJsonUrl).subscribe(
+      data => {
+        this.ClearStatusModalData = data;
+        this.ClearStatusModalTotalPages = Math.ceil(this.ClearStatusModalData.length / this.ClearStatusModalPageSize);
+        this.updatePagedClearStatusModalData();
+      },
+      error => {
+        this.ClearStatusModalData = [];
+        this.ClearStatusModalTotalPages = 1;
+        this.updatePagedClearStatusModalData();
+      }
+    );
+  }
+
   closeBackupTableModal(): void {
     this.showBackupTableModal = false;
     this.backupTableModalData = [];
     this.pagedBackupTableModalData = [];
+  }
+  closeClearStatusModal(): void {
+    this.showClearStatusModal = false;
+    this.ClearStatusModalData = [];
+    this.pagedClearStatusModalData = [];
   }
 
   updatePagedBackupTableModalData(): void {
@@ -494,10 +531,24 @@ export class HomeComponent implements OnInit
     this.pagedBackupTableModalData = this.backupTableModalData.slice(start, end);
   }
 
+  
+  updatePagedClearStatusModalData(): void {
+    const start = this.ClearStatusModalPage * this.ClearStatusModalPageSize;
+    const end = start + this.ClearStatusModalPageSize;
+    this.pagedClearStatusModalData = this.ClearStatusModalData.slice(start, end);
+  }
+
   backupTableModalPrevPage(): void {
     if (this.backupTableModalPage > 0) {
       this.backupTableModalPage--;
       this.updatePagedBackupTableModalData();
+    }
+  }
+  
+    ClearStausModalPrevPage(): void {
+    if (this.ClearStatusModalPage > 0) {
+      this.ClearStatusModalPage--;
+      this.updatePagedClearStatusModalData();
     }
   }
 
@@ -507,11 +558,24 @@ export class HomeComponent implements OnInit
       this.updatePagedBackupTableModalData();
     }
   }
+  ClearStatusModalNextPage(): void {
+    if (this.ClearStatusModalPage < this.backupTableModalTotalPages - 1) {
+      this.ClearStatusModalPage++;
+      this.updatePagedClearStatusModalData();
+    }
+  }
 
   backupTableModalGoToPage(page: number): void {
     if (page >= 0 && page < this.backupTableModalTotalPages) {
       this.backupTableModalPage = page;
       this.updatePagedBackupTableModalData();
+    }
+  }
+
+  ClearStatusModalGoToPage(page: number): void {
+    if (page >= 0 && page < this.ClearStatusModalTotalPages) {
+      this.ClearStatusModalPage = page;
+      this.updatePagedClearStatusModalData();
     }
   }
 
@@ -531,6 +595,9 @@ export class HomeComponent implements OnInit
     a.click();
     window.URL.revokeObjectURL(url);
   }
+
+
+
 
   // Pagination for Account Analysis Table
   public backupTablePage = 0;

@@ -17,7 +17,7 @@
         <div class="card m-2">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-2">
-              <div class="card-title h6 mb-0">Account Analysis Chart View</div>
+              <div class="card-title h6 mb-0">Reconciliation Overview</div>
               <div style="position:relative; display:inline-block; min-width:140px; max-width:180px; width:100%;">
                 <select class="form-control form-control-sm pr-4" [(ngModel)]="barChartFilter" (change)="onBarChartFilterChange(barChartFilter)" style="font-size:0.75rem; min-width:140px; max-width:180px; width:100%; appearance: none;">
                   <option value="monthly">Monthly</option>
@@ -50,12 +50,13 @@
         <div class="card m-2">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-2">
-              <div class="card-title h6 mb-0">GL Summary</div>
+              <div class="card-title h6 mb-0">Table Status</div>
               <div style="position:relative; display:inline-block; min-width:140px; max-width:180px; width:100%;">
                 <select class="form-control form-control-sm pr-4" [(ngModel)]="glSummaryFilter" (change)="onGlSummaryFilterChange(glSummaryFilter)" style="font-size:0.75rem; min-width:140px; max-width:180px; width:100%; appearance: none;">
-                  <option value="monthly">Monthly</option>
-                  <option value="quarterly">Quarterly</option>
-                  <option value="yearly">Yearly</option>
+                  <option value="monthly">Input Table</option>
+                  <option value="quarterly">Net Pay A</option>
+                  <option value="yearly">Net Pay B</option>
+                  <option value="yearly">Cheque Reg C</option>
                 </select>
                 <i class="fa fa-angle-down" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); pointer-events:none; font-size:1rem; color:#888;"></i>
               </div>
@@ -87,7 +88,7 @@
       <div class="col-lg-12 col-md-12">
         <div class="card m-2">
           <div class="card-body">
-            <div class="card-title h6">Account Analysis</div>
+            <div class="card-title h6">Reconciliation Report</div>
             <div class="row">
               <div class="col-md-12 small">
                 <div class="table-responsive" role="region" aria-label="Backup Table Data" style="overflow-x: auto;">
@@ -104,7 +105,7 @@
                         <th scope="col">Backup Table 5</th>
                         <th scope="col">Clear Status</th>
                         <th scope="col">Out Status</th>
-                        <th scope="col">Status</th>
+                        <!-- <th scope="col">Status</th> -->
                       </tr>
                     </thead>
                     <tbody>
@@ -124,23 +125,23 @@
                         <td>{{ row.backupTable3Duplicate }}</td>
                         <td>{{ row.backupTable4 }}</td>
                         <td>
-                          {{ row.clearStatus.value }}
+                         <a href="#" (click)="openClearStatusModal('backupTable3', $event)" style="cursor:pointer; text-decoration:underline; color:#1976d2;">{{ row.clearStatus.value }}</a> 
                           <button class="btn btn-link btn-sm p-0 ml-2" (click)="downloadStatusExcel(row.clearStatus.file)" aria-label="Download Clear Status Excel">
                             <img src="assets/img/xls.png" alt="Download Excel" style="height:18px; width:auto; margin-right:4px;" />
                             (download Excel)
                           </button>
                         </td>
                         <td>
-                          {{ row.outStatus.value }}
+                          <a href="#" (click)="openClearStatusModal('backupTable3', $event)" style="cursor:pointer; text-decoration:underline; color:#1976d2;">{{ row.outStatus.value }}</a>
                           <button class="btn btn-link btn-sm p-0 ml-2" (click)="downloadStatusExcel(row.outStatus.file)" aria-label="Download Out Status Excel">
                             <img src="assets/img/xls.png" alt="Download Excel" style="height:18px; width:auto; margin-right:4px;" />
                             (download Excel)
                           </button>
                         </td>
-                        <td>
+                        <!-- <td>
                           <input type="checkbox" [checked]="row.status" (change)="toggleStatus(row)" aria-label="Status Checkbox" />
                           <span class="ml-2">{{ row.status ? 'Clear' : 'Unclear' }}</span>
-                        </td>
+                        </td> -->
                       </tr>
                     </tbody>
                   </table>
@@ -271,7 +272,7 @@
                   <th>Run ID</th>
                   <th>Amount</th>
                   <th>Subtotal</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                 </tr>
               </thead>
               <tbody>
@@ -281,7 +282,11 @@
                   <td>{{ item['Run ID'] }}</td>
                   <td>{{ item.Amount }}</td>
                   <td>{{ item.Subtotal }}</td>
-                  <td>{{ item.Status }}</td>
+                  <!-- <td>{{ item.Status }}</td> -->
+                   <!-- <td>
+                          <input type="checkbox" [checked]="item.status" (change)="toggleStatus(item)" aria-label="Status Checkbox" />
+                          <span class="ml-2">{{ item.status ? 'Clear' : 'Unclear' }}</span>
+                        </td>  -->
                 </tr>
               </tbody>
             </table>
@@ -310,6 +315,79 @@
           Download Excel
         </button>
         <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="closeBackupTableModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Clearstatus Modal Popup -->
+<div class="modal fade show" tabindex="-1" role="dialog" *ngIf="showClearStatusModal" style="display:block; background:rgba(0,0,0,0.3);">
+  <div class="modal-dialog modal-xl" role="document" style="min-height: 80vh; max-width: 98vw; width: 98vw;">
+    <div class="modal-content" style="min-height: 70vh;">
+      <div class="modal-header">
+        <h5 class="modal-title">Backup Table Details</h5>
+        <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="downloadBackupTableExcel()">
+          <img src="assets/img/xls.png" alt="Download Excel" style="height:22px; width:auto; margin-right:8px;" />
+          Download Excel
+        </button>
+        <button type="button" class="close" aria-label="Close" (click)="closeClearStatusModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body p-2">
+        <div *ngIf="ClearStatusModalData && ClearStatusModalData.length > 0; else noClearStatusData">
+          <div class="table-responsive" style="max-height: 350px; overflow-y: auto; overflow-x: auto;">
+            <table class="table table-bordered table-sm mb-2" style="font-size: 0.78rem; line-height: 1.1;">
+              <thead>
+                <tr>
+                  <th>Details</th>
+                  <th>Pay Date</th>
+                  <th>Run ID</th>
+                  <th>Amount</th>
+                  <th>Subtotal</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of pagedClearStatusModalData">
+                  <td>{{ item.Details }}</td>
+                  <td>{{ item['Pay Date'] }}</td>
+                  <td>{{ item['Run ID'] }}</td>
+                  <td>{{ item.Amount }}</td>
+                  <td>{{ item.Subtotal }}</td>
+                  <!-- <td>{{ item.Status }}</td> -->
+                   <td>
+                          <input type="checkbox" [checked]="item.status" (change)="toggleStatus(item)" aria-label="Status Checkbox" />
+                          <span class="ml-2">{{ item.status ? 'Clear' : 'Unclear' }}</span>
+                        </td> 
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination Controls -->
+          <div class="d-flex justify-content-between align-items-center mt-2" style="font-size:0.8rem;">
+            <div>
+              Page {{ ClearStatusModalPage + 1 }} of {{ ClearStatusModalTotalPages }}
+            </div>
+            <div>
+              <button class="btn btn-light btn-sm mr-1" [disabled]="ClearStatusModalPage === 0" (click)="ClearStausModalPrevPage()">Prev</button>
+              <ng-container *ngFor="let page of [].constructor(ClearStatusModalTotalPages); let i = index">
+                <button class="btn btn-sm mx-1" [ngClass]="{'btn-primary': ClearStatusModalPage === i, 'btn-light': ClearStatusModalPage !== i}" (click)="ClearStatusModalGoToPage(i)">{{ i + 1 }}</button>
+              </ng-container>
+              <button class="btn btn-light btn-sm" [disabled]="ClearStatusModalPage >= ClearStatusModalTotalPages - 1" (click)="ClearStatusModalNextPage()">Next</button>
+            </div>
+          </div>
+        </div>
+        <ng-template #noClearStatusData>
+          <div class="text-center text-muted">No data available.</div>
+        </ng-template>
+      </div>
+      <div class="modal-footer d-flex justify-content-end">
+        <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="downloadBackupTableExcel()">
+          <img src="assets/img/xls.png" alt="Download Excel" style="height:22px; width:auto; margin-right:8px;" />
+          Download Excel
+        </button>
+        <button type="button" class="btn btn-outline-primary btn-sm mr-2" (click)="closeClearStatusModal()">Close</button>
       </div>
     </div>
   </div>
